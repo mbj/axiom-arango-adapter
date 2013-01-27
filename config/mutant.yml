@@ -1,0 +1,3 @@
+---
+name: veritas-arango-adapter
+namespace: Veritas::Adapter::Arango

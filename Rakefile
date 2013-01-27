@@ -1,0 +1,2 @@
+require 'devtools'
+Devtools.init
