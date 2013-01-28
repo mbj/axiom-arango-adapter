@@ -30,7 +30,7 @@ Credits
 -------
 
 * [Markus Schirp (mbj)](https://github.com/mbj) Author
-* [triAGENS](https://github.com/triAGENS]) for sponsoring this work!
+* [triAGENS](https://github.com/triAGENS) for sponsoring this work!
 
 Contributing
 -------------
