@@ -29,8 +29,8 @@ No public api => No examples. (Subjected to change).
 Credits
 -------
 
-* [Markus Schirp (mbj)](https://github.com/mbj) author
-* [triAGENS](https://github.com/triAGENS]) sponsoring this work!
+* [Markus Schirp (mbj)](https://github.com/mbj) Author
+* [triAGENS](https://github.com/triAGENS]) for sponsoring this work!
 
 Contributing
 -------------
