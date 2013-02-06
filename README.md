@@ -5,7 +5,7 @@ Veritas-Arango-Adapter
 [![Dependency Status](https://gemnasium.com/mbj/veritas-arango-adapter.png)](https://gemnasium.com/mbj/veritas-arango-adapter)
 [![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/mbj/veritas-arango-adapter)
 
-[ArangoDB](https://arangodb.org) adapter for [veritas](https://github.com/dkubb/veritas).
+[ArangoDB](https://www.arangodb.org) adapter for [veritas](https://github.com/dkubb/veritas).
 
 Using veritas-arango-adapter
 ----------------------------
