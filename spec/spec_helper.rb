@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-require 'aql'
+require 'veritas-arango-adapter'
 require 'rspec'
 
 # require spec support files and shared behavior
