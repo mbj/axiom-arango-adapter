@@ -9,3 +9,5 @@ module Veritas
     end
   end
 end
+
+require 'veritas/adapter/arango/visitor'
