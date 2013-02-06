@@ -1,3 +1,6 @@
+require 'veritas'
+require 'aql'
+
 module Veritas
   # Namespace for veritas adapters
   module Adapter
