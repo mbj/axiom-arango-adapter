@@ -1,8 +1,8 @@
 module Veritas
   # Namespace for veritas adapters
   module Adapter
-    # The adapter for arangodb
-    class Arango
+    # Namespace for arango adapter
+    module Arango
     end
   end
 end
