@@ -2,4 +2,4 @@
 --format progress
 --profile
 --order random
---backtrace
+--fail-fast
