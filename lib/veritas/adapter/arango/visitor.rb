@@ -4,8 +4,31 @@ module Veritas
       class Visitor
         include AbstractType, Adamantium::Flat, Composition.new(:input, :context), AQL
 
+        class Root < self
+          def initialize(input)
+            super(input, self)
+          end
+
+          # Return inspected object
+          #
+          # Must be overriden to fight stack overflow on inspecting
+          #
+          # @return [String]
+          #
+          # @api private
+          #
+          def inspect
+            "#<#{self.class.name} input=#{input.inspect}>"
+          end
+          memoize :inspect
+
+        end
+
+        abstract_method :root
+        abstract_method :leaf
+
         def self.run(relation)
-          visitor(relation, nil).output.aql
+          visitor(relation, Root.new(relation)).root.aql
         end
 
         def self.table
@@ -15,7 +38,7 @@ module Veritas
             Veritas::Function::Connective::Disjunction => Binary,
             Veritas::Function::Predicate::Equality     => Binary,
             Veritas::Algebra::Restriction              => Restriction,
-            Veritas::Relation::Base                    => BaseRelation,
+            Veritas::Relation::Base                    => BaseRelation
           }
         end
 
@@ -28,17 +51,15 @@ module Veritas
         end
 
         def visit(relation)
-          visitor(relation).output
+          visitor(relation).root
         end
 
-        abstract_method :output
-
         def self.process(*args)
-          new(*args).output
+          new(*args).root
         end
 
         class Literal < self
-          def output
+          def root
             Node::Literal.build(input)
           end
         end
@@ -46,14 +67,14 @@ module Veritas
         class Binary < self
           TABLE = {
             Veritas::Function::Connective::Disjunction => AQL::Node::Operator::Binary::Or,
-            Veritas::Function::Predicate::Equality => AQL::Node::Operator::Binary::Equality
+            Veritas::Function::Predicate::Equality     => AQL::Node::Operator::Binary::Equality
           }
 
           def local_name
             context.local_name
           end
 
-          def output
+          def root
             klass = TABLE.fetch(input.class)
             klass.new(left, right)
           end
@@ -69,13 +90,18 @@ module Veritas
 
         class Attribute < self
 
-          def output
+          def root
             Node::Attribute.new(context.local_name, Node::Name.new(input.name))
           end
         end
 
         class Restriction < self
-          def output
+
+          def root
+            visit(input.operand)
+          end
+
+          def leaf
             Node::Operation::Unary::Filter.new(expression)
           end
 
@@ -90,7 +116,7 @@ module Veritas
 
         class BaseRelation < self
 
-          def output
+          def root
             Node::Operation::For.new(local_name, collection_name, body)
           end
 
@@ -105,7 +131,25 @@ module Veritas
             Node::Name.new(input.name)
           end
 
+          def leafes
+            leafes = []
+            current = context
+            until current.kind_of?(Root)
+              leafes << current.leaf
+              current = current.context
+            end
+            leafes
+
+          end
+
           def body
+            body = []
+            body.concat(leafes)
+            body << return_operation
+            Node::Block.new(body)
+          end
+
+          def return_operation
             Node::Operation::Unary::Return.new(document)
           end
 
@@ -119,7 +163,7 @@ module Veritas
 
         class DocumentAttribute < self
 
-          def output
+          def root
             Node::Literal::Composed::Document::Attribute.new(key, value) 
           end
 
