@@ -1,9 +1,9 @@
-Veritas-Arango-Adapter
+veritas-arango-adapter
 ======================
 
 [![Build Status](https://secure.travis-ci.org/mbj/veritas-arango-adapter.png?branch=master)](http://travis-ci.org/mbj/veritas-arango-adapter)
 [![Dependency Status](https://gemnasium.com/mbj/veritas-arango-adapter.png)](https://gemnasium.com/mbj/veritas-arango-adapter)
-[![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/mbj/veritas-arango-adapter)
+[![Code Climate](https://codeclimate.com/github/mbj/veritas-arango-adapter.png)](https://codeclimate.com/github/mbj/veritas-arango-adapter)
 
 [ArangoDB](https://www.arangodb.org) adapter for [veritas](https://github.com/dkubb/veritas).
 
