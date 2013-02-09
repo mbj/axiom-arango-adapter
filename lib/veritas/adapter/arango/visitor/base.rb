@@ -16,6 +16,7 @@ module Veritas
           def root
             Node::Operation::For.new(local_name, collection_name, body)
           end
+          memoize :root
 
           # Return local name
           #
@@ -49,7 +50,7 @@ module Veritas
           def leaves
             leafes = []
             context = self.context
-            until context.root?
+            while !context.root?  # mutant does not know "until" currently ;)
               leafes << context.leaf
               context = context.context
             end
@@ -87,49 +88,27 @@ module Veritas
           #
           def document
             attributes = input.header.map do |attribute|
-              DocumentAttribute.new(attribute, self).root
+              document_attribute(attribute)
             end
             Node::Literal::Composed::Document.new(attributes)
           end
 
-        end # Base
-
-        # Visitor creating document attributes
-        class DocumentAttribute < self
-
-          # Return root aql node
+          # Return document attribute node
+          #
+          # @return [Veritas::Attribute] attribute
           #
           # @return [AQL::Node]
           #
           # @api private
           #
-          def root
+          def document_attribute(attribute)
+            name = attribute.name
+            key = Node::Literal::Primitive::String.new(name.to_s)
+            value = Node::Attribute.new(local_name, Node::Name.new(name))
             Node::Literal::Composed::Document::Attribute.new(key, value) 
           end
 
-        private
-         
-          # Return aql node representing document key
-          #
-          # @return [AQL::Node]
-          #
-          # @api private
-          #
-          def key
-            Node::Literal::Primitive::String.new(input.name.to_s)
-          end
-         
-          # Return aql node representing document value
-          #
-          # @return [AQL::Node]
-          #
-          # @api private
-          #
-          def value
-            Node::Attribute.new(context.local_name, Node::Name.new(input.name))
-          end
-
-        end
+        end 
       end
     end
   end

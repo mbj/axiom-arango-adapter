@@ -16,6 +16,7 @@ module Veritas
           def root
             Node::Literal.build(input)
           end
+          memoize :root
 
         end
       end

@@ -16,6 +16,7 @@ module Veritas
           def root
             visit(input.operand)
           end
+          memoize :root
 
           # Return leaf aql ast
           #
@@ -26,6 +27,7 @@ module Veritas
           def leaf
             Node::Operation::Unary::Filter.new(expression)
           end
+          memoize :leaf
 
           # Return local name
           #
@@ -36,6 +38,9 @@ module Veritas
           def local_name
             visitor(input.operand).local_name
           end
+          memoize :local_name
+
+        private
 
           # Return restriction expression
           #

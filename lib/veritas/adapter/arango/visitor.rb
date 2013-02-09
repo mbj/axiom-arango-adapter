@@ -17,7 +17,7 @@ module Veritas
         # @api private
         #
         def self.run(node)
-          visitor(node, Root.new(node)).root
+          visitor(node, node).root
         end
 
         REGISTRY = {}
@@ -60,7 +60,7 @@ module Veritas
         # @api private
         #
         def root?
-          self.kind_of?(Root)
+          input.equal?(context)
         end
 
       private

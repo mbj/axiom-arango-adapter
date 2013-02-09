@@ -22,6 +22,7 @@ module Veritas
           def local_name
             context.local_name
           end
+          memoize :local_name
 
           # Return root aql node
           #
@@ -33,6 +34,7 @@ module Veritas
             klass = MAPPING.fetch(input.class)
             klass.new(left, right)
           end
+          memoize :root
 
         private
 

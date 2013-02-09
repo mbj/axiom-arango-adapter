@@ -6,15 +6,19 @@ describe Veritas::Adapter::Arango::Visitor, '#root?' do
   let(:object)  { class_under_test.new(node, context) }
   let(:node)    { mock('Node')                        }
 
-  context 'when not instance of root visitor' do
-    let(:object) { Class.new(described_class).new(node, mock) }
-
-    it { should be(false) }
+  let(:class_under_test) do
+    Class.new(described_class)
   end
 
-  context 'when instance of root visitor' do
-    let(:object) { described_class::Root.new(node) }
+  context 'when context equals input' do
+    let(:object) { class_under_test.new(node, node) }
 
     it { should be(true) }
+  end
+
+  context 'when context not equals input' do
+    let(:object) { class_under_test.new(node, mock) }
+
+    it { should be(false) }
   end
 end

@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe Veritas::Adapter::Arango::Visitor, '.visitor' do
-  let(:object) { described_class }
+describe Veritas::Adapter::Arango::Visitor, '#visit' do
+  let(:object) { class_under_test.new(node, context) }
 
   let(:node)     { mock('Veritas Node')               }
   let(:aql_node) { mock('AQL Node')                   }
@@ -13,6 +13,12 @@ describe Veritas::Adapter::Arango::Visitor, '.visitor' do
 
   let(:dummy) { Dummy.new }
 
+  let(:class_under_test) do
+    Class.new(described_class) do
+      public :visit
+    end
+  end
+
   let!(:test_visitor) do
     aql_node = self.aql_node
     Class.new(described_class) do
@@ -23,7 +29,7 @@ describe Veritas::Adapter::Arango::Visitor, '.visitor' do
     end
   end
 
-  subject { object.visitor(dummy, context) }
+  subject { object.visit(dummy) }
 
-  it { should eql(test_visitor.new(dummy, context)) }
+  it { should be(aql_node) }
 end

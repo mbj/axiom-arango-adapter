@@ -4,15 +4,23 @@ describe Veritas::Adapter::Arango::Visitor, '.run' do
   let(:object) { described_class }
 
   let(:node)         { mock('Veritas Node')               }
-  let(:root_context) { described_class::Root.new(node)    }
   let(:aql_node)     { mock('AQL Node')                   }
   let(:visitor)      { mock('Visitor', :root => aql_node) }
 
-  subject { object.run(node) }
-
-  before do
-    object.should_receive(:visitor).with(node, root_context).and_return(visitor)
+  class Dummy
   end
+
+  let!(:test_visitor) do
+    aql_node = self.aql_node
+    Class.new(described_class) do
+      handle(Dummy)
+      define_method :root do
+        aql_node
+      end
+    end
+  end
+
+  subject { object.run(Dummy.new) }
 
   it { should be(aql_node) }
 end

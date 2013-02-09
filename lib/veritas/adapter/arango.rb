@@ -11,7 +11,6 @@ module Veritas
 end
 
 require 'veritas/adapter/arango/visitor'
-require 'veritas/adapter/arango/visitor/root'
 require 'veritas/adapter/arango/visitor/base'
 require 'veritas/adapter/arango/visitor/literal'
 require 'veritas/adapter/arango/visitor/binary'
