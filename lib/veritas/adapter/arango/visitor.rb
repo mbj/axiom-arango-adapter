@@ -1,182 +1,102 @@
 module Veritas
   module Adapter
     module Arango
+      # Base class for node specific visitors
       class Visitor
         include AbstractType, Adamantium::Flat, Composition.new(:input, :context), AQL
-
-        class Root < self
-          def initialize(input)
-            super(input, self)
-          end
-
-          # Return inspected object
-          #
-          # Must be overriden to fight stack overflow on inspecting
-          #
-          # @return [String]
-          #
-          # @api private
-          #
-          def inspect
-            "#<#{self.class.name} input=#{input.inspect}>"
-          end
-          memoize :inspect
-
-        end
 
         abstract_method :root
         abstract_method :leaf
 
-        def self.run(relation)
-          visitor(relation, Root.new(relation)).root.aql
+        # Create AQL from veritas relation node
+        #
+        # @param [Node] node
+        #
+        # @return [String]
+        #
+        # @api private
+        #
+        def self.run(node)
+          visitor(node, Root.new(node)).root.aql
         end
 
-        def self.table
-          @table ||= {
-            String                                     => Literal,
-            Veritas::Attribute::String                 => Attribute,
-            Veritas::Function::Connective::Disjunction => Binary,
-            Veritas::Function::Predicate::Equality     => Binary,
-            Veritas::Algebra::Restriction              => Restriction,
-            Veritas::Relation::Base                    => BaseRelation
-          }
+        REGISTRY = {}
+
+        # Register handler for veritas node
+        #
+        # @param [Class] klass
+        #
+        # @return [undefined]
+        #
+        # @api private
+        #
+        def self.handle(klass)
+          REGISTRY[klass]=self
         end
 
-        def self.visitor(relation, context)
-          table.fetch(relation.class).new(relation, context)
+        private_class_method :handle
+
+        # Return visitor for node and context
+        #
+        # @param [Node] node
+        # @param [Visitor] context
+        #
+        # @return [Visitor]
+        #
+        # @api private
+        #
+        def self.visitor(node, context)
+          REGISTRY.fetch(node.class).new(node, context)
         end
 
-        def visitor(relation)
-          self.class.visitor(relation, self)
+        # Return visitor for relation
+        #
+        # @param [Node] node
+        #
+        # @return [Visitor]
+        #
+        # @api private
+        #
+        def visitor(node)
+          self.class.visitor(node, self)
         end
 
-        def visit(relation)
-          visitor(relation).root
+        # Return aql node from visiting veritas node
+        #
+        # @param [Node] node
+        #
+        # @return [AQL::Node]
+        #
+        # @api private
+        #
+        def visit(node)
+          visitor(node).root
         end
 
+        # Test if receiver is root visitor
+        #
+        # @return [true]
+        #   if receiver is root visitor
+        #
+        # @return [false]
+        #   otherwise
+        #
+        # @api private
+        #
+        def root?
+          self.kind_of?(Root)
+        end
+
+        # Process via visitor
+        #
+        # FIXME: Remove this
+        #
+        # @return [AQL::Node]
+        #
+        # @api private
+        #
         def self.process(*args)
           new(*args).root
-        end
-
-        class Literal < self
-          def root
-            Node::Literal.build(input)
-          end
-        end
-
-        class Binary < self
-          TABLE = {
-            Veritas::Function::Connective::Disjunction => AQL::Node::Operator::Binary::Or,
-            Veritas::Function::Predicate::Equality     => AQL::Node::Operator::Binary::Equality
-          }
-
-          def local_name
-            context.local_name
-          end
-
-          def root
-            klass = TABLE.fetch(input.class)
-            klass.new(left, right)
-          end
-
-          def left
-            visit(input.left)
-          end
-
-          def right
-            visit(input.right)
-          end
-        end
-
-        class Attribute < self
-
-          def root
-            Node::Attribute.new(context.local_name, Node::Name.new(input.name))
-          end
-        end
-
-        class Restriction < self
-
-          def root
-            visit(input.operand)
-          end
-
-          def leaf
-            Node::Operation::Unary::Filter.new(expression)
-          end
-
-          def local_name
-            visitor(input.operand).local_name
-          end
-
-          def expression
-            visit(input.predicate)
-          end
-        end
-
-        class BaseRelation < self
-
-          def root
-            Node::Operation::For.new(local_name, collection_name, body)
-          end
-
-          def local_name
-            Node::Name.new("local_#{input.name}")
-          end
-          memoize :local_name
-
-        private
-
-          def collection_name
-            Node::Name.new(input.name)
-          end
-
-          def leafes
-            leafes = []
-            current = context
-            until current.kind_of?(Root)
-              leafes << current.leaf
-              current = current.context
-            end
-            leafes
-
-          end
-
-          def body
-            body = []
-            body.concat(leafes)
-            body << return_operation
-            Node::Block.new(body)
-          end
-
-          def return_operation
-            Node::Operation::Unary::Return.new(document)
-          end
-
-          def document
-            attributes = input.header.map do |attribute|
-              DocumentAttribute.process(attribute, self)
-            end
-            Node::Literal::Composed::Document.new(attributes)
-          end
-        end
-
-        class DocumentAttribute < self
-
-          def root
-            Node::Literal::Composed::Document::Attribute.new(key, value) 
-          end
-
-        private
-
-          def key
-            Node::Literal::Primitive::String.new(input.name.to_s)
-          end
-
-          def value
-            Node::Attribute.new(context.local_name, Node::Name.new(input.name))
-          end
-
         end
 
       end

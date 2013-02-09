@@ -21,13 +21,13 @@ UncommunicativeMethodName:
   - !ruby/regexp /[0-9]$/
   - !ruby/regexp /[A-Z]/
 LongParameterList:
-  max_params: 2  # TODO: decrease max_params to 2
+  max_params: 2  
   exclude: []
   enabled: true
   overrides: {}
 FeatureEnvy:
   exclude: 
-  - Anima#attributes_hash
+  - Veritas::Adapter::Arango::Visitor::Base#leaves # TODO: Fix
   enabled: true
 ClassVariable:
   exclude: []
