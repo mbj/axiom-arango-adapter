@@ -87,7 +87,7 @@ module Veritas
           #
           def document
             attributes = input.header.map do |attribute|
-              DocumentAttribute.process(attribute, self)
+              DocumentAttribute.new(attribute, self).root
             end
             Node::Literal::Composed::Document.new(attributes)
           end

@@ -5,7 +5,7 @@ describe Veritas::Adapter::Arango, 'aql generation' do
   let(:header)        { Veritas::Relation::Header.coerce([[:foo, String], [:bar, String]]) }
   let(:base_relation) { Veritas::Relation::Base.new(:collection, header)   }
 
-  subject { Veritas::Adapter::Arango::Visitor.run(relation) }
+  subject { Veritas::Adapter::Arango::Visitor.run(relation).aql }
 
   def compress_aql(string)
     string.split("\n").map { |str| str.gsub(/\A[ ]*/, '') }.join(' ')

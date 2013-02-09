@@ -14,7 +14,7 @@ module Veritas
           # @api private
           #
           def initialize(input)
-            super(input, self)
+            super(input, input)
           end
 
           # Return inspected object
