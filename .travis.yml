@@ -1,5 +1,5 @@
 language: ruby
-before_script: support/arango.sh
+before_script: spec/setup/arangodb.sh
 script: 'bundle exec rake ci'
 rvm:
   - ree
