@@ -17,8 +17,8 @@ module AQLHelper
   end
 
   def expect_aql(string)
-    let(:header)  { Veritas::Relation::Header.coerce([[:foo, String]]) }
-    let(:base)    { Veritas::Relation::Base.new(:name, header)         }
+    let(:header)  { Veritas::Relation::Header.coerce([[:foo, String], [:bar, String]]) }
+    let(:base)    { Veritas::Relation::Base.new(:name, header) }
     let(:object)  { described_class.new(node, context) }
 
     expected_aql = compress_aql(string)

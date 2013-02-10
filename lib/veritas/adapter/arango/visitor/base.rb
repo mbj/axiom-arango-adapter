@@ -48,13 +48,13 @@ module Veritas
           # @api private
           #
           def leaves
-            leafes = []
-            context = self.context
-            while !context.root?  # mutant does not know "until" currently ;)
-              leafes << context.leaf
-              context = context.context
+            leaves = []
+            current = context
+            while current
+              leaves << current.leaf
+              current = current.context
             end
-            leafes
+            leaves
           end
 
           # Return body of for statement
@@ -64,8 +64,7 @@ module Veritas
           # @api private
           #
           def body
-            body = []
-            body.concat(leaves)
+            body = leaves
             body << return_operation
             Node::Block.new(body)
           end

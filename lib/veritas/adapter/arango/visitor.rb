@@ -8,16 +8,16 @@ module Veritas
         abstract_method :root
         abstract_method :leaf
 
-        # Return AQL node from veritas relation node
+        # Return AQL node from relation 
         #
-        # @param [Node] node
+        # @param [Relation] node
         #
         # @return [AQL::Node]
         #
         # @api private
         #
         def self.run(node)
-          visitor(node, node).root
+          build(node).root
         end
 
         REGISTRY = {}
@@ -45,22 +45,8 @@ module Veritas
         #
         # @api private
         #
-        def self.visitor(node, context)
+        def self.build(node, context = nil)
           REGISTRY.fetch(node.class).new(node, context)
-        end
-
-        # Test if receiver is root visitor
-        #
-        # @return [true]
-        #   if receiver is root visitor
-        #
-        # @return [false]
-        #   otherwise
-        #
-        # @api private
-        #
-        def root?
-          input.equal?(context)
         end
 
       private
@@ -74,7 +60,7 @@ module Veritas
         # @api private
         #
         def visitor(node)
-          self.class.visitor(node, self)
+          self.class.build(node, self)
         end
 
         # Return aql node from visiting veritas node

@@ -2,57 +2,58 @@ require 'spec_helper'
 
 describe Veritas::Adapter::Arango, 'aql generation' do
 
-  let(:header)        { Veritas::Relation::Header.coerce([[:foo, String], [:bar, String]]) }
-  let(:base_relation) { Veritas::Relation::Base.new(:collection, header)   }
-
-  subject { Veritas::Adapter::Arango::Visitor.run(relation).aql }
-
-  def compress_aql(string)
-    string.split("\n").map { |str| str.gsub(/\A[ ]*/, '') }.join(' ')
-  end
+  subject { Veritas::Adapter::Arango::Visitor.run(node) }
 
   def self.expect_aql(string)
-    let(:expected_aql) { compress_aql(string) }
-    it { should eql(expected_aql) }
+    let(:header)  { Veritas::Relation::Header.coerce([[:foo, String], [:bar, String]]) }
+    let(:base)    { Veritas::Relation::Base.new(:name, header) }
+    let(:object)  { described_class.new(node, context) }
+
+    expected_aql = compress_aql(string)
+    its(:aql) { should eql(expected_aql) }
   end
 
   context 'no restriction' do
-    let(:relation) { base_relation }
+    let(:node) { base }
 
     expect_aql <<-AQL
-      FOR `local_collection` IN `collection`
-        RETURN {"foo": `local_collection`.`foo`, "bar": `local_collection`.`bar`}
+      FOR `local_name` IN `name`
+        RETURN {"foo": `local_name`.`foo`, "bar": `local_name`.`bar`}
     AQL
   end
 
   context 'simple restriction' do
-    let(:relation) { base_relation.restrict { |r| r.foo.eq("bar") } }
+    let(:node) { base.restrict { |r| r.foo.eq('bar') } }
 
     expect_aql <<-AQL
-      FOR `local_collection` IN `collection`
-        FILTER (`local_collection`.`foo` == "bar")
-        RETURN {"foo": `local_collection`.`foo`, "bar": `local_collection`.`bar`}
+      FOR `local_name` IN `name`
+        FILTER (`local_name`.`foo` == "bar")
+        RETURN {"foo": `local_name`.`foo`, "bar": `local_name`.`bar`}
     AQL
   end
 
   context 'complex restriction' do
-    let(:relation) { base_relation.restrict { |r| r.foo.eq("bar").or(r.foo.eq("baz")) } }
+    let(:node) { base.restrict { |r| r.foo.eq('bar').or(r.foo.eq('baz')) } }
 
     expect_aql <<-AQL
-      FOR `local_collection` IN `collection`
-        FILTER ((`local_collection`.`foo` == "bar") || (`local_collection`.`foo` == "baz"))
-        RETURN {"foo": `local_collection`.`foo`, "bar": `local_collection`.`bar`}
+      FOR `local_name` IN `name`
+        FILTER ((`local_name`.`foo` == "bar") || (`local_name`.`foo` == "baz"))
+        RETURN {"foo": `local_name`.`foo`, "bar": `local_name`.`bar`}
     AQL
   end
 
   context 'nested restriction' do
-    let(:relation) { base_relation.restrict { |r| r.foo.eq("bar") }.restrict { |r| r.bar.eq("baz") } }
+    let(:node) do 
+      base.
+        restrict { |r| r.foo.eq('bar') }.
+        restrict { |r| r.bar.eq('baz') } 
+    end
 
     expect_aql <<-AQL
-      FOR `local_collection` IN `collection`
-        FILTER (`local_collection`.`foo` == "bar")
-        FILTER (`local_collection`.`bar` == "baz")
-        RETURN {"foo": `local_collection`.`foo`, "bar": `local_collection`.`bar`}
+      FOR `local_name` IN `name`
+        FILTER (`local_name`.`foo` == "bar")
+        FILTER (`local_name`.`bar` == "baz")
+        RETURN {"foo": `local_name`.`foo`, "bar": `local_name`.`bar`}
     AQL
   end
 end

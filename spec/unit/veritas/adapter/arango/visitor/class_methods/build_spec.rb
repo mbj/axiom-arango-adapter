@@ -1,12 +1,12 @@
 require 'spec_helper'
 
-describe Veritas::Adapter::Arango::Visitor, '.visitor' do
+describe Veritas::Adapter::Arango::Visitor, '.build' do
   let(:object) { described_class }
 
   let(:node)     { mock('Veritas Node')               }
   let(:aql_node) { mock('AQL Node')                   }
   let(:context)  { mock('Context')                    }
-  let(:visitor)  { mock('Visitor', :root => aql_node) }
+  let(:build)  { mock('Visitor', :root => aql_node) }
 
   class Dummy
   end
@@ -23,7 +23,15 @@ describe Veritas::Adapter::Arango::Visitor, '.visitor' do
     end
   end
 
-  subject { object.visitor(dummy, context) }
+  context 'with explicit context' do
+    subject { object.build(dummy, context) }
 
-  it { should eql(test_visitor.new(dummy, context)) }
+    it { should eql(test_visitor.new(dummy, context)) }
+  end
+
+  context 'with implicit context' do
+    subject { object.build(dummy) }
+
+    it { should eql(test_visitor.new(dummy, nil)) }
+  end
 end
