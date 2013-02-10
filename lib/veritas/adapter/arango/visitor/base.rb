@@ -101,8 +101,8 @@ module Veritas
           # @api private
           #
           def document_attribute(attribute)
-            name = attribute.name
-            key = Node::Literal::Primitive::String.new(name.to_s)
+            name  = attribute.name
+            key   = Node::Literal::Primitive::String.new(name.to_s)
             value = Node::Attribute.new(local_name, Node::Name.new(name))
             Node::Literal::Composed::Document::Attribute.new(key, value) 
           end
