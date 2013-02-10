@@ -98,6 +98,16 @@ describe Veritas::Adapter::Arango, 'aql generation' do
     AQL
   end
 
+  context 'reversing relation' do
+    let(:node) { ordered.reverse }
+
+    expect_aql <<-AQL
+      REVERSE(FOR `local_name` IN `name`
+        SORT `local_name`.`foo` ASC, `local_name`.`bar` ASC 
+        RETURN {"foo": `local_name`.`foo`, "bar": `local_name`.`bar`})
+    AQL
+  end
+
  #context 'offset on base relation' do
  #  let(:node) do 
  #    base.skip(10)
