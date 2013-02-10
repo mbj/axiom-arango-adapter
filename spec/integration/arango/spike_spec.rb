@@ -22,6 +22,16 @@ describe Veritas::Adapter::Arango, 'aql generation' do
     AQL
   end
 
+ #context 'projection' do
+ #  let(:node) { base.project([:bar]) }
+
+ #  expect_aql <<-AQL
+ #    FOR `local_name` IN `name`
+ #      FILTER (`local_name`.`foo` == "bar")
+ #      RETURN {"foo": `local_name`.`foo`, "bar": `local_name`.`bar`}
+ #  AQL
+ #end
+
   context 'simple restriction' do
     let(:node) { base.restrict { |r| r.foo.eq('bar') } }
 
@@ -107,16 +117,4 @@ describe Veritas::Adapter::Arango, 'aql generation' do
         RETURN {"foo": `local_name`.`foo`, "bar": `local_name`.`bar`})
     AQL
   end
-
- #context 'offset on base relation' do
- #  let(:node) do 
- #    base.skip(10)
- #  end
-
- #  expect_aql <<-AQL
- #    FOR `local_name` IN `name`
- #      LIMIT 0, 10
- #      RETURN {"foo": `local_name`.`foo`, "bar": `local_name`.`bar`}
- #  AQL
- #end
 end

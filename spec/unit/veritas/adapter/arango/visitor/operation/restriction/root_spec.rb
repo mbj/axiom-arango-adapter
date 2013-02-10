@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Veritas::Adapter::Arango::Visitor::Restriction, '#root' do
+describe Veritas::Adapter::Arango::Visitor::Operation::Restriction, '#root' do
   let(:node)    { base.restrict { |r| r.foo.eq('bar') } }
   let(:context) { nil                                   }
 

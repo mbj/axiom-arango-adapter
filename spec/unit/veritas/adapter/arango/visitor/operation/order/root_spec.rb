@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Veritas::Adapter::Arango::Visitor::Order, '#root' do
+describe Veritas::Adapter::Arango::Visitor::Operation::Order, '#root' do
   let(:node)    { base.sort_by { |r| [r.foo.asc, r.bar.asc] } }
   let(:context) { nil }
 
