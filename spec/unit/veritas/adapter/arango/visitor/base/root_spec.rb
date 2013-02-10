@@ -20,7 +20,6 @@ describe Veritas::Adapter::Arango::Visitor::Base, '#root' do
   context 'one level deep' do
     let(:context) { mock('Context', :root? => false, :context => nil, :leaf => AQL::Node::Literal.build('baz')) }
 
-
     # Senseless but proves parent context is taken into account
     expect_aql <<-AQL
       FOR `local_name` IN `name`
@@ -30,18 +29,16 @@ describe Veritas::Adapter::Arango::Visitor::Base, '#root' do
   end
 
   context 'many levels deep' do
-    let(:middle)  { mock('Middle', :root? => false, :context => nil, :leaf => AQL::Node::Literal.build('bog')) }
-    let(:context) { mock('Context', :root? => false, :context => middle, :leaf => AQL::Node::Literal.build('baz')) }
-
+    let(:parent)  { mock('Middle',  :root? => false, :context => nil,    :leaf => AQL::Node::Literal.build('parent'))  }
+    let(:context) { mock('Context', :root? => false, :context => parent, :leaf => AQL::Node::Literal.build('context')) }
 
     # Senseless but proves nested contexts are taken into account
     expect_aql <<-AQL
       FOR `local_name` IN `name`
-        "baz"
-        "bog"
+        "parent"
+        "context"
         RETURN {"foo": `local_name`.`foo`, "bar": `local_name`.`bar`}
     AQL
   end
-
 end
 

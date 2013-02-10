@@ -54,7 +54,7 @@ module Veritas
               leaves << current.leaf
               current = current.context
             end
-            leaves
+            leaves.reverse
           end
 
           # Return body of for statement

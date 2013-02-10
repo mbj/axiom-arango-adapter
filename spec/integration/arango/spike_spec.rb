@@ -51,8 +51,8 @@ describe Veritas::Adapter::Arango, 'aql generation' do
 
     expect_aql <<-AQL
       FOR `local_name` IN `name`
-        FILTER (`local_name`.`foo` == "bar")
         FILTER (`local_name`.`bar` == "baz")
+        FILTER (`local_name`.`foo` == "bar")
         RETURN {"foo": `local_name`.`foo`, "bar": `local_name`.`bar`}
     AQL
   end
