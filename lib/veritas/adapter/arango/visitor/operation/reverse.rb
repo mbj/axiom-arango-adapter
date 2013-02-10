@@ -17,7 +17,7 @@ module Veritas
             # @api private
             #
             def root
-              Node::Call::new(FUNCTION_NAME, [visit(input.operand)])
+              Node::Call::new(FUNCTION_NAME, [super])
             end
             memoize :root
 

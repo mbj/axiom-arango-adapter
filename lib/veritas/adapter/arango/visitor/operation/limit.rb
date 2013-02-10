@@ -8,17 +8,6 @@ module Veritas
 
             handle(Veritas::Relation::Operation::Limit)
 
-            # Return root aql ast
-            #
-            # @return [AQL::Node]
-            #
-            # @api private
-            #
-            def root
-              visit(input.operand)
-            end
-            memoize :root
-
             # Return leaf aql ast
             #
             # @return [AQL::Node]
