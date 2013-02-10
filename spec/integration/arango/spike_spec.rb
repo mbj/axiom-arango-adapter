@@ -56,4 +56,42 @@ describe Veritas::Adapter::Arango, 'aql generation' do
         RETURN {"foo": `local_name`.`foo`, "bar": `local_name`.`bar`}
     AQL
   end
+
+  context 'ordered' do
+    let(:node) do
+      base.
+        sort_by { |r| [r.foo.asc, r.bar.asc] }
+    end
+
+    expect_aql <<-AQL
+      FOR `local_name` IN `name`
+        SORT `local_name`.`foo` ASC, `local_name`.`bar` ASC
+        RETURN {"foo": `local_name`.`foo`, "bar": `local_name`.`bar`}
+    AQL
+  end
+
+
+ #context 'limit on base relation' do
+ #  let(:node) do 
+ #    base.take(10)
+ #  end
+
+ #  expect_aql <<-AQL
+ #    FOR `local_name` IN `name`
+ #      LIMIT 10
+ #      RETURN {"foo": `local_name`.`foo`, "bar": `local_name`.`bar`}
+ #  AQL
+ #end
+
+ #context 'offset on base relation' do
+ #  let(:node) do 
+ #    base.skip(10)
+ #  end
+
+ #  expect_aql <<-AQL
+ #    FOR `local_name` IN `name`
+ #      LIMIT 0, 10
+ #      RETURN {"foo": `local_name`.`foo`, "bar": `local_name`.`bar`}
+ #  AQL
+ #end
 end
