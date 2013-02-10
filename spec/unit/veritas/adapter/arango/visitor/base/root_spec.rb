@@ -35,8 +35,8 @@ describe Veritas::Adapter::Arango::Visitor::Base, '#root' do
     # Senseless but proves nested contexts are taken into account
     expect_aql <<-AQL
       FOR `local_name` IN `name`
-        "parent"
         "context"
+        "parent"
         RETURN {"foo": `local_name`.`foo`, "bar": `local_name`.`bar`}
     AQL
   end
