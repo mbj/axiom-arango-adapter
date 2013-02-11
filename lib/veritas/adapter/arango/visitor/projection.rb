@@ -18,6 +18,17 @@ module Veritas
           end
           memoize :root
 
+          # Return local name
+          #
+          # @return [AQL::Name]
+          #
+          # @api private
+          #
+          def local_name
+            AQL.name_node('projection')
+          end
+          memoize :local_name
+
         end
       end
     end

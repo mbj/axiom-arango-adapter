@@ -25,7 +25,7 @@ module Veritas
           # @api private
           #
           def local_name
-            Node::Name.new("local_#{input.name}")
+            AQL.name_node("local_#{input.name}")
           end
           memoize :local_name
 

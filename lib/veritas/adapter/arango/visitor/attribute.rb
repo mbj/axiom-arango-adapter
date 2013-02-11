@@ -14,7 +14,7 @@ module Veritas
           # @api private
           #
           def root
-            Node::Attribute.new(context.local_name, Node::Name.new(input.name))
+            Node::Attribute.new(context.local_name, AQL.name_node(input.name))
           end
           memoize :root
 
