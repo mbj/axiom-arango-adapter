@@ -11,5 +11,4 @@ describe Veritas::Adapter::Arango::Visitor::Operation::Restriction, '#root' do
       FILTER (`local_name`.`foo` == "bar")
       RETURN {"foo": `local_name`.`foo`, "bar": `local_name`.`bar`}
   AQL
-
 end
