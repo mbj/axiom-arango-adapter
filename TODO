@@ -1,2 +1,12 @@
 * Find edge cases for nameing locals. local_name is not enough ;)
 * Full mutation coverage
+Veritas operations to be implemented:
+  * Veritas::Algebra::Extension
+  * Veritas::Algebra::Join
+  * Veritas::Algebra::Product
+  * Veritas::Algebra::Rename 
+  * Veritas::Algebra::Summarization
+  * Veritas::Aggregate::Count
+  * Veritas::Aggregate::Maximum
+  * Veritas::Aggregate::Minimum
+  * Veritas::Aggregate::Sum
