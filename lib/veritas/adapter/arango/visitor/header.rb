@@ -2,6 +2,7 @@ module Veritas
   module Adapter
     module Arango
       class Visitor
+        # Visitor for creating projected documents from veritas header
         class Header < self
 
           handle(Relation::Header)
@@ -13,14 +14,23 @@ module Veritas
           # @api private
           #
           def root
-            attributes = input.map do |attribute|
-              document_attribute(attribute)
-            end
-            Node::Literal::Composed::Document.new(attributes)
+            Node::Literal::Composed::Document.new(document_attributes)
           end
           memoize :root
 
         private
+
+          # Return document attributes
+          #
+          # @return [Enumerable<AQL::Node>]
+          #
+          # @api private
+          #
+          def document_attributes
+            attributes = input.map do |attribute|
+              document_attribute(attribute)
+            end
+          end
 
           # Return document attribute node
           #
@@ -31,10 +41,22 @@ module Veritas
           # @api private
           #
           def document_attribute(attribute)
-            name  = attribute.name
-            key   = Node::Literal::Primitive::String.new(name.to_s)
-            value = Node::Attribute.new(context.local_name, AQL.name_node(name))
-            Node::Literal::Composed::Document::Attribute.new(key, value) 
+            Node::Literal::Composed::Document::Attribute.new(
+              Node::Literal::Primitive::String.new(attribute.name.to_s),
+              document_value(attribute)
+            ) 
+          end
+
+          # Return document value
+          #
+          # @param [Attribute] attribute
+          #
+          # @return [AQL::Node::Attribute]
+          #
+          # @api private
+          #
+          def document_value(attribute)
+            Node::Attribute.new(context.local_name, AQL.name_node(attribute.name))
           end
 
         end
