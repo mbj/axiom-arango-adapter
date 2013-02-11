@@ -12,11 +12,35 @@ module Veritas
           # @api private
           #
           def root
-            visit(input.operand)
+            operand.root
           end
           memoize :root
 
           abstract_method :leaf
+
+          # Return local name
+          #
+          # @return [AQL::Node::Name]
+          #
+          # @api private
+          #
+          def local_name
+            operand.local_name
+          end
+          memoize :local_name
+
+        private
+
+          # Return operand visitor
+          #
+          # @return [Visitor]
+          #
+          # @api private
+          #
+          def operand
+            visitor(input.operand)
+          end
+          memoize :operand
 
         end
       end

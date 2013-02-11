@@ -19,17 +19,6 @@ module Veritas
             end
             memoize :leaf
 
-            # Return local name
-            #
-            # @return [AQL::Node::Name]
-            #
-            # @api private
-            #
-            def local_name
-              visitor(input.operand).local_name
-            end
-            memoize :local_name
-
           private
 
             # Return restriction expression
