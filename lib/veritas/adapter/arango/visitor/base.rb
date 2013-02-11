@@ -31,6 +31,14 @@ module Veritas
 
         private
 
+          # List of nodes that are emitted within Base visitor
+          CONSUME = [
+            Algebra::Restriction,
+            Relation::Operation::Order,
+            Relation::Operation::Offset,
+            Relation::Operation::Limit,
+          ].to_set
+
           # Return collection name
           #
           # @return [AQL::Node::Name]
@@ -38,7 +46,7 @@ module Veritas
           # @api private
           #
           def collection_name
-            Node::Name.new(input.name)
+            AQL.name_node(input.name)
           end
 
           # Return leaves
@@ -50,7 +58,7 @@ module Veritas
           def leaves
             leaves = []
             current = context
-            while current
+            while current and current.consume_in_base?
               leaves << current.leaf
               current = current.context
             end
@@ -76,35 +84,7 @@ module Veritas
           # @api private
           #
           def return_operation
-            Node::Operation::Unary::Return.new(document)
-          end
-
-          # Return document node
-          #
-          # @return [AQL::Node]
-          #
-          # @api private
-          #
-          def document
-            attributes = input.header.map do |attribute|
-              document_attribute(attribute)
-            end
-            Node::Literal::Composed::Document.new(attributes)
-          end
-
-          # Return document attribute node
-          #
-          # @return [Veritas::Attribute] attribute
-          #
-          # @return [AQL::Node]
-          #
-          # @api private
-          #
-          def document_attribute(attribute)
-            name  = attribute.name
-            key   = Node::Literal::Primitive::String.new(name.to_s)
-            value = Node::Attribute.new(local_name, Node::Name.new(name))
-            Node::Literal::Composed::Document::Attribute.new(key, value) 
+            Node::Operation::Unary::Return.new(visit(input.header))
           end
 
         end 

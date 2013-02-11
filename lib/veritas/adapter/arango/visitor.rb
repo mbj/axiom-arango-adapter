@@ -34,6 +34,18 @@ module Veritas
           REGISTRY[klass]=self
         end
 
+        # Test if node should be consumed by base visitor 
+        #
+        # @return [true]
+        #   if node supports beeing consumed inside base
+        #
+        # @return [false]
+        #   otherwise
+        #
+        def consume_in_base?
+          Base::CONSUME.include?(input.class)
+        end
+
         private_class_method :handle
 
         # Return visitor for node and context
