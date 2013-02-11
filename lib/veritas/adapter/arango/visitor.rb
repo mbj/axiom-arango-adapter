@@ -42,6 +42,8 @@ module Veritas
         # @return [false]
         #   otherwise
         #
+        # @api private
+        #
         def consume_in_base?
           Base::CONSUME.include?(input.class)
         end
