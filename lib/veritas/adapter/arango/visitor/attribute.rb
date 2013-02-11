@@ -6,6 +6,7 @@ module Veritas
         class Attribute < self
 
           handle(Veritas::Attribute::String)
+          handle(Veritas::Attribute::Integer)
 
           # Return root aql node 
           #

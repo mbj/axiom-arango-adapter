@@ -5,7 +5,7 @@ describe Veritas::Adapter::Arango, 'aql generation' do
   subject { Veritas::Adapter::Arango::Visitor.run(node) }
 
   def self.expect_aql(string)
-    let(:header)  { Veritas::Relation::Header.coerce([[:foo, String], [:bar, String]]) }
+    let(:header)  { Veritas::Relation::Header.coerce([[:foo, String], [:bar, Integer]]) }
     let(:base)    { Veritas::Relation::Base.new(:name, header) }
     let(:object)  { described_class.new(node, context) }
 
@@ -19,6 +19,16 @@ describe Veritas::Adapter::Arango, 'aql generation' do
     expect_aql <<-AQL
       FOR `local_name` IN `name`
         RETURN {"foo": `local_name`.`foo`, "bar": `local_name`.`bar`}
+    AQL
+  end
+
+  context 'extension' do
+    let(:node) { base.extend { |r| r.add(:baz, r.bar * 2) } }
+
+    expect_aql <<-AQL
+      FOR `extension` IN
+        (FOR `local_name` IN `name` RETURN {"foo": `local_name`.`foo`, "bar": `local_name`.`bar`})
+        RETURN {"foo": `extension`.`foo`, "bar": `extension`.`bar`, "baz": (`extension`.`bar` * 2)}
     AQL
   end
 

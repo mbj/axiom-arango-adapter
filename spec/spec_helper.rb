@@ -23,7 +23,7 @@ module AQLHelper
   end
 
   def expect_aql(string)
-    let(:header)  { Veritas::Relation::Header.coerce([[:foo, String], [:bar, String]]) }
+    let(:header)  { Veritas::Relation::Header.coerce([[:foo, String], [:bar, Integer]]) }
     let(:base)    { Veritas::Relation::Base.new(:name, header) }
     let(:object)  { described_class.new(node, context) }
 

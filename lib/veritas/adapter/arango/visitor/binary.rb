@@ -5,13 +5,16 @@ module Veritas
         # Visitor for binary aql nodes
         class Binary < self
 
-          handle(Function::Connective::Disjunction)
-          handle(Function::Predicate::Equality)
-  
           MAPPING = {
-            Veritas::Function::Connective::Disjunction => AQL::Node::Operator::Binary::Or,
-            Veritas::Function::Predicate::Equality     => AQL::Node::Operator::Binary::Equality
+            Function::Numeric::Multiplication => AQL::Node::Operator::Binary::Multiplication,
+            Function::Connective::Disjunction => AQL::Node::Operator::Binary::Or,
+            Function::Connective::Disjunction => AQL::Node::Operator::Binary::Or,
+            Function::Predicate::Equality     => AQL::Node::Operator::Binary::Equality
           }.freeze
+
+          MAPPING.each_key do |klass|
+            handle(klass)
+          end
 
           # Return local name
           #

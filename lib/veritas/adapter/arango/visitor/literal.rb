@@ -5,7 +5,8 @@ module Veritas
         # Visitor for literal nodes
         class Literal < self
 
-          handle(String)
+          handle(::String)
+          handle(::Fixnum)
 
           # Return root aql node
           #
