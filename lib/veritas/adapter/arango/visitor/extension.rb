@@ -94,6 +94,18 @@ module Veritas
             ) 
           end
 
+          # Return docuemnt attribute access node
+          #
+          # @param [Attribute] attribute
+          #
+          # @return [AQL::Node::Attribute]
+          #
+          # @api private
+          #
+          def attribute_access(attribute)
+            Node::Attribute.new(local_name, AQL.name_node(attribute.name))
+          end
+
           # Return document attribute value
           #
           # @param [Attribute] attribute
@@ -104,7 +116,7 @@ module Veritas
           #
           def document_attribute_value(attribute)
             extension = input.extensions.fetch(attribute) do
-              return Node::Attribute.new(local_name, AQL.name_node(attribute.name))
+              return attribute_access(attribute)
             end
             visit(extension)
           end
