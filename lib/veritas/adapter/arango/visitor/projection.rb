@@ -14,7 +14,7 @@ module Veritas
           # @api private
           #
           def root
-            visit(input.operand)
+            Node::Operation::For.new(local_name, visit(input.operand), return_operation)
           end
           memoize :root
 
@@ -28,6 +28,18 @@ module Veritas
             AQL.name_node('projection')
           end
           memoize :local_name
+
+        private
+
+          # Return return operation
+          #
+          # @return [AQL::Node::Operation::Return]
+          #
+          # @api private
+          #
+          def return_operation
+            Node::Operation::Unary::Return.new(visit(input.header))
+          end
 
         end
       end

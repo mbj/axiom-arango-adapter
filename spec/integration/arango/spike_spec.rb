@@ -22,15 +22,16 @@ describe Veritas::Adapter::Arango, 'aql generation' do
     AQL
   end
 
- #context 'projection' do
- #  let(:node) { base.project([:bar]) }
+  context 'projection' do
+    let(:node) { base.project([:bar]) }
 
- #  expect_aql <<-AQL
- #    FOR `local_name` IN `name`
- #      FILTER (`local_name`.`foo` == "bar")
- #      RETURN {"foo": `local_name`.`foo`, "bar": `local_name`.`bar`}
- #  AQL
- #end
+    expect_aql <<-AQL
+      FOR `projection` IN
+        (FOR `local_name` IN `name`
+        RETURN {"foo": `local_name`.`foo`, "bar": `local_name`.`bar`})
+        RETURN {"bar": `projection`.`bar`}
+    AQL
+  end
 
   context 'simple restriction' do
     let(:node) { base.restrict { |r| r.foo.eq('bar') } }
@@ -112,9 +113,9 @@ describe Veritas::Adapter::Arango, 'aql generation' do
     let(:node) { ordered.reverse }
 
     expect_aql <<-AQL
-      REVERSE(FOR `local_name` IN `name`
-        SORT `local_name`.`foo` ASC, `local_name`.`bar` ASC 
-        RETURN {"foo": `local_name`.`foo`, "bar": `local_name`.`bar`})
+      REVERSE((FOR `local_name` IN `name`
+        SORT `local_name`.`foo` ASC, `local_name`.`bar` ASC
+        RETURN {"foo": `local_name`.`foo`, "bar": `local_name`.`bar`}))
     AQL
   end
 end
