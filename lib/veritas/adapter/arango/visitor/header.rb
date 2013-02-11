@@ -27,7 +27,7 @@ module Veritas
           # @api private
           #
           def document_attributes
-            attributes = input.map do |attribute|
+            input.map do |attribute|
               document_attribute(attribute)
             end
           end
