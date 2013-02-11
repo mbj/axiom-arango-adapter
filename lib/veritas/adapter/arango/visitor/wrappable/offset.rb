@@ -2,8 +2,8 @@ module Veritas
   module Adapter
     module Arango
       class Visitor
-        class Operation
-          # Visitor offsets 
+        class Wrappable
+          # Visitor for emitting currently definct LIMIT statements from veritas offset operations
           class Offset < self
 
             handle(Veritas::Relation::Operation::Offset)

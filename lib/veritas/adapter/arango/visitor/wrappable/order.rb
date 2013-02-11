@@ -2,8 +2,8 @@ module Veritas
   module Adapter
     module Arango
       class Visitor
-        class Operation
-          # Visitor for restriction nodes
+        class Wrappable
+          # Vistor for emitting AQL SORT statments from veritas order operations
           class Order < self
 
             handle(Veritas::Relation::Operation::Order)

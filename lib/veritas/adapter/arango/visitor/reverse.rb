@@ -2,9 +2,13 @@ module Veritas
   module Adapter
     module Arango
       class Visitor
-        # Base class for visitors of nodes in the Veritas::Relation::Operation namespace
-        class Operation < self
+        # Visitor for reverse operation
+        class Reverse < self
 
+          handle(Veritas::Relation::Operation::Reverse)
+
+          FUNCTION_NAME = 'REVERSE'.freeze
+          
           # Return root aql ast
           #
           # @return [AQL::Node]
@@ -12,7 +16,7 @@ module Veritas
           # @api private
           #
           def root
-            visit(input.operand)
+            Node::Call::new(FUNCTION_NAME, [visit(input.operand)])
           end
           memoize :root
 

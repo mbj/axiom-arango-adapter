@@ -58,7 +58,7 @@ module Veritas
           def leaves
             leaves = []
             current = context
-            while current and current.consume_in_base?
+            while current and current.wrappable?
               leaves << current.leaf
               current = current.context
             end

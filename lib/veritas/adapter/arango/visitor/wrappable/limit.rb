@@ -2,8 +2,8 @@ module Veritas
   module Adapter
     module Arango
       class Visitor
-        class Operation
-          # Visitor limits
+        class Wrappable
+          # Vistor for emitting AQL LIMIT statements from veritas limit operations
           class Limit < self
 
             handle(Veritas::Relation::Operation::Limit)

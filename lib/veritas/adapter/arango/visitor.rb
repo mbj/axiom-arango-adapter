@@ -34,7 +34,7 @@ module Veritas
           REGISTRY[klass]=self
         end
 
-        # Test if node should be consumed by base visitor 
+        # Test if node can be wrapped within AQL FOR statement
         #
         # @return [true]
         #   if node supports beeing consumed inside base
@@ -44,8 +44,8 @@ module Veritas
         #
         # @api private
         #
-        def consume_in_base?
-          Base::CONSUME.include?(input.class)
+        def wrappable?
+          kind_of?(Wrappable)
         end
 
         private_class_method :handle
