@@ -1,5 +1,4 @@
 * Find edge cases for nameing locals. local_name is not enough ;)
-* Full mutation coverage
 Veritas operations to be implemented:
   * Veritas::Algebra::Extension
   * Veritas::Algebra::Join
