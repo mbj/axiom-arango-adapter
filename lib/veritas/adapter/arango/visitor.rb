@@ -73,8 +73,8 @@ module Veritas
         #
         # @api private
         #
-        def visitor(node)
-          self.class.build(node, self)
+        def visitor(node, context = self)
+          self.class.build(node, context)
         end
 
         # Return aql node from visiting veritas node
@@ -85,8 +85,8 @@ module Veritas
         #
         # @api private
         #
-        def visit(node)
-          visitor(node).root
+        def visit(node, context = self)
+          visitor(node, context).root
         end
 
       end

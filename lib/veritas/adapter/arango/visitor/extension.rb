@@ -48,35 +48,7 @@ module Veritas
           # @api private
           #
           def extended_document
-            Node::Literal::Composed::Document.new(document_attributes)
-          end
-
-          # Return document attributes
-          #
-          # @return [Enumerable<AQL::Node>]
-          #
-          # @api private
-          #
-          def document_attributes
-            input.header.map do |attribute|
-              document_attribute(attribute)
-            end
-          end
-
-          # Test if attribute is extended
-          #
-          # @param [Attribute] attribute
-          #
-          # @return [true]
-          #   if attribute is extended
-          #
-          # @return [false]
-          #   otherwise
-          #
-          # @api private
-          #
-          def extended?(attribute)
-            input.extensions.key?(attribute)
+            Node::Call.new('MERGE', [local_name, Node::Literal::Composed::Document.new(extended_attributes)])
           end
 
           # Return document attribute node
@@ -87,38 +59,26 @@ module Veritas
           #
           # @api private
           #
-          def document_attribute(attribute)
+          def extended_attributes
+            input.extensions.map do |attribute, function|
+              document_attribute(attribute, function)
+            end
+          end
+
+          # Return document attribute
+          #
+          # @param [Veritas::Attribute] attribute
+          # @param [Veritas::Function] function
+          #
+          # @return [AQL::Node::Literal::Composed::Document::Attribute>]
+          #
+          # @api private
+          #
+          def document_attribute(attribute, function)
             Node::Literal::Composed::Document::Attribute.new(
               Node::Literal::Primitive::String.new(attribute.name.to_s),
-              document_attribute_value(attribute)
-            ) 
-          end
-
-          # Return docuemnt attribute access node
-          #
-          # @param [Attribute] attribute
-          #
-          # @return [AQL::Node::Attribute]
-          #
-          # @api private
-          #
-          def attribute_access(attribute)
-            Node::Attribute.new(local_name, AQL.name_node(attribute.name))
-          end
-
-          # Return document attribute value
-          #
-          # @param [Attribute] attribute
-          #
-          # @return [AQL::Node::Attribute]
-          #
-          # @api private
-          #
-          def document_attribute_value(attribute)
-            extension = input.extensions.fetch(attribute) do
-              return attribute_access(attribute)
-            end
-            visit(extension)
+              visit(function)
+            )
           end
 
         end
