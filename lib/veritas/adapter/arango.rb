@@ -11,14 +11,15 @@ module Veritas
 end
 
 require 'veritas/adapter/arango/visitor'
-require 'veritas/adapter/arango/visitor/base'
 require 'veritas/adapter/arango/visitor/literal'
 require 'veritas/adapter/arango/visitor/binary'
 require 'veritas/adapter/arango/visitor/header'
 require 'veritas/adapter/arango/visitor/attribute'
-require 'veritas/adapter/arango/visitor/projection'
-require 'veritas/adapter/arango/visitor/extension'
 require 'veritas/adapter/arango/visitor/reverse'
+require 'veritas/adapter/arango/visitor/for'
+require 'veritas/adapter/arango/visitor/for/base'
+require 'veritas/adapter/arango/visitor/for/projection'
+require 'veritas/adapter/arango/visitor/for/extension'
 require 'veritas/adapter/arango/visitor/wrappable'
 require 'veritas/adapter/arango/visitor/wrappable/restriction'
 require 'veritas/adapter/arango/visitor/wrappable/order'

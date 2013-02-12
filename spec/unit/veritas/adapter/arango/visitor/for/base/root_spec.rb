@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Veritas::Adapter::Arango::Visitor::Base, '#root' do
+describe Veritas::Adapter::Arango::Visitor::For::Base, '#root' do
   subject { object.root }
 
   let(:node)    { base                               }

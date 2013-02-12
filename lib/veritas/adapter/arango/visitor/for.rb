@@ -2,10 +2,8 @@ module Veritas
   module Adapter
     module Arango
       class Visitor
-        # Visitor limits
-        class Projection < self
-
-          handle(Algebra::Projection)
+        # Base class for visitors that emit for statements
+        class For < self
 
           # Return root aql ast
           #
@@ -14,22 +12,33 @@ module Veritas
           # @api private
           #
           def root
-            Node::Operation::For.new(local_name, visit(input.operand), return_operation)
+            Node::Operation::For.new(local_name, source, body)
           end
           memoize :root
 
-          # Return local name
+          abstract_method :local_name
+
+        private
+
+          # Return source
           #
-          # @return [AQL::Name]
+          # @return [AQL::Node]
           #
           # @api private
           #
-          def local_name
-            AQL.name_node('projection')
+          def source
+            visit(input.operand)
           end
-          memoize :local_name
 
-        private
+          # Return body
+          #
+          # @return [AQL::Node]
+          #
+          # @api private
+          #
+          def body
+            return_operation
+          end
 
           # Return return operation
           #

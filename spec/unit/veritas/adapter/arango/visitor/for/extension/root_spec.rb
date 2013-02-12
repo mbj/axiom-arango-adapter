@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Veritas::Adapter::Arango::Visitor::Extension, '#root' do
+describe Veritas::Adapter::Arango::Visitor::For::Extension, '#root' do
   let(:node)    { base.extend { |r| r.add(:baz, r.bar * 2) } }
   let(:context) { mock('Context', :local_name => AQL.name_node('local_name')) }
 
