@@ -43,20 +43,8 @@ module Veritas
           def document_attribute(attribute)
             Node::Literal::Composed::Document::Attribute.new(
               Node::Literal::Primitive::String.new(attribute.name.to_s),
-              document_value(attribute)
+              visit(attribute, context)
             ) 
-          end
-
-          # Return document value
-          #
-          # @param [Attribute] attribute
-          #
-          # @return [AQL::Node::Attribute]
-          #
-          # @api private
-          #
-          def document_value(attribute)
-            Node::Attribute.new(context.local_name, AQL.name_node(attribute.name))
           end
 
         end
