@@ -21,23 +21,13 @@ module Veritas
 
           private
 
-            # Return return operation
+            # Return return value
             #
-            # @return [AQL::Node::Operation::Return]
-            #
-            # @api private
-            #
-            def return_operation
-              Node::Operation::Unary::Return.new(extended_document)
-            end
-
-            # Return extended document
-            #
-            # @return [AQL::Node::Literal::Composed::Document]
+            # @return [AQL::Node::Call]
             #
             # @api private
             #
-            def extended_document
+            def return_value
               Node::Call.new('MERGE', [local_name, Node::Literal::Composed::Document.new(extended_attributes)])
             end
 

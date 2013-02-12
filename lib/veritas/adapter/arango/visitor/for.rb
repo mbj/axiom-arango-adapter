@@ -47,7 +47,17 @@ module Veritas
           # @api private
           #
           def return_operation
-            Node::Operation::Unary::Return.new(visit(input.header))
+            Node::Operation::Unary::Return.new(return_value)
+          end
+
+          # Return return value
+          #
+          # @return [AQL::Node::Literal::Composed::Document]
+          #
+          # @api private
+          #
+          def return_value
+            visit(input.header)
           end
 
         end

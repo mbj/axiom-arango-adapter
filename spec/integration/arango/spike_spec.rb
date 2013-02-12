@@ -22,6 +22,16 @@ describe Veritas::Adapter::Arango, 'aql generation' do
     AQL
   end
 
+  context 'rename' do
+    let(:node) { base.rename(:bar => :baz) }
+
+    expect_aql <<-AQL
+      FOR `rename` IN
+        (FOR `local_name` IN `name` RETURN {"foo": `local_name`.`foo`, "bar": `local_name`.`bar`})
+        RETURN {"foo": `rename`.`foo`, "baz": `rename`.`bar`}
+    AQL
+  end
+
   context 'extension' do
     let(:node) { base.extend { |r| r.add(:baz, r.bar * 2) } }
 
