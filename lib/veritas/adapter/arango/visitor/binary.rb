@@ -7,6 +7,10 @@ module Veritas
 
           MAPPING = {
             Function::Numeric::Multiplication => AQL::Node::Operator::Binary::Multiplication,
+            Function::Numeric::Addition       => AQL::Node::Operator::Binary::Addition,
+            Function::Numeric::Division       => AQL::Node::Operator::Binary::Division,
+            Function::Numeric::Modulo         => AQL::Node::Operator::Binary::Modulo,
+            Function::Numeric::Subtraction    => AQL::Node::Operator::Binary::Subtraction,
             Function::Connective::Disjunction => AQL::Node::Operator::Binary::Or,
             Function::Connective::Disjunction => AQL::Node::Operator::Binary::Or,
             Function::Predicate::Equality     => AQL::Node::Operator::Binary::Equality
