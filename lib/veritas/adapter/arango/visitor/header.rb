@@ -18,8 +18,6 @@ module Veritas
           end
           memoize :root
 
-        private
-
           # Return document attributes
           #
           # @return [Enumerable<AQL::Node>]
@@ -31,6 +29,9 @@ module Veritas
               document_attribute(attribute)
             end
           end
+          memoize :document_attributes
+
+        private
 
           # Return document attribute node
           #

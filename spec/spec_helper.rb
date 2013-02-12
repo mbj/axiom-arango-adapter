@@ -27,6 +27,9 @@ module AQLHelper
     let(:base)    { Veritas::Relation::Base.new(:name, header) }
     let(:object)  { described_class.new(node, context) }
 
+    let(:header_b) { Veritas::Relation::Header.coerce([[:baz, String]]) }
+    let(:base_b)   { Veritas::Relation::Base.new(:name_b, header_b) }
+
     unless instance_method_defined?(:context)
       let(:context) { nil }
     end

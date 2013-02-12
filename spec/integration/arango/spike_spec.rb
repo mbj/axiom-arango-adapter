@@ -9,8 +9,21 @@ describe Veritas::Adapter::Arango, 'aql generation' do
     let(:base)    { Veritas::Relation::Base.new(:name, header) }
     let(:object)  { described_class.new(node, context) }
 
+    let(:header_b) { Veritas::Relation::Header.coerce([[:baz, String]]) }
+    let(:base_b)   { Veritas::Relation::Base.new(:name_b, header_b) }
+
     expected_aql = compress_aql(string)
     its(:aql) { should eql(expected_aql) }
+  end
+
+  context 'product' do
+    let(:node) { base.product(base_b) }
+
+    expect_aql <<-AQL
+      FOR `left` IN (FOR `local_name` IN `name` RETURN {"foo": `local_name`.`foo`, "bar": `local_name`.`bar`})
+        FOR `right` IN (FOR `local_name_b` IN `name_b` RETURN {"baz": `local_name_b`.`baz`})
+          RETURN {"foo": `left`.`foo`, "bar": `left`.`bar`, "baz": `right`.`baz`}
+    AQL
   end
 
   context 'no restriction' do
