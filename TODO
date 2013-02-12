@@ -2,7 +2,6 @@
 Veritas operations to be implemented:
   * Veritas::Algebra::Join
   * Veritas::Algebra::Product
-  * Veritas::Algebra::Rename 
   * Veritas::Algebra::Summarization
   * Veritas::Aggregate::Count
   * Veritas::Aggregate::Maximum
