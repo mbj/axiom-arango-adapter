@@ -1,6 +1,5 @@
 * Find edge cases for nameing locals. local_name is not enough ;)
 Veritas operations to be implemented:
-  * Veritas::Algebra::Join
   * Veritas::Algebra::Summarization
   * Veritas::Aggregate::Count
   * Veritas::Aggregate::Maximum
