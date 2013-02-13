@@ -3,10 +3,8 @@ module Veritas
     module Arango
       class Visitor
         class For
-          # Visitor for emitting products
-          class Product < self
-
-            handle(Veritas::Algebra::Product)
+          # Base class for binary relation visitors
+          class Binary < self
 
             # Return local name
             #
@@ -37,10 +35,10 @@ module Veritas
             # @api private
             #
             def body
-              Right.new(input.right, self).root
+              self.class::Right.new(input.right, self).root
             end
 
-            # Vistior for right of projection
+            # Visitor for right of join
             class Right < For
 
               # Return local name
@@ -75,26 +73,28 @@ module Veritas
                 AQL::Node::Literal::Composed::Document.new(left_document_attributes + right_document_attributes)
               end
 
-              # Return left document attributes
+              # Return right header
               #
-              # @return [Enumerable<AQL::Node::Literal::Composed::Document::Attribute>]
+              # @return [Relation::Header]
               #
               # @api private
               #
-              def left_document_attributes
-                visitor = visitor(context_input.left.header, context)
-                visitor.document_attributes
+              def right_header
+                input.header
               end
 
-              # Return right document attributes
+              # Return left header
               #
-              # @return [Enumerable<AQL::Node::Literal::Composed::Document::Attribute>]
+              # @return [Relation::Header]
               #
               # @api private
               #
-              def right_document_attributes
-                visitor(context_input.right.header).document_attributes
+              def left_header
+                context_input.left.header
               end
+
+              abstract_method :left_document_attributes
+              abstract_method :right_document_attributes
 
               # Return context input
               #
