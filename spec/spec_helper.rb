@@ -27,8 +27,13 @@ module AQLHelper
     let(:base)    { Veritas::Relation::Base.new(:name, header) }
     let(:object)  { described_class.new(node, context) }
 
+    # Disjunct header for projection
     let(:header_b) { Veritas::Relation::Header.coerce([[:baz, String]]) }
     let(:base_b)   { Veritas::Relation::Base.new(:name_b, header_b) }
+
+    # Overlapping header for join
+    let(:header_c) { Veritas::Relation::Header.coerce([[:baz, String], [:bar, Integer]]) }
+    let(:base_c)   { Veritas::Relation::Base.new(:name_c, header_c) }
 
     unless instance_method_defined?(:context)
       let(:context) { nil }
