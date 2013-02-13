@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Veritas::Adapter::Arango::Visitor::For::Product, '#root' do
+describe Veritas::Adapter::Arango::Visitor::For::Binary::Product, '#root' do
   subject { object.root }
 
   let(:node) { base.product(base_b) }
