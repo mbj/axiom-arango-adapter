@@ -9,7 +9,7 @@ module Veritas
             handle(Veritas::Relation::Operation::Offset)
 
 
-            SIGNED_INT_32_MAX = 31 ** 2 - 1
+            SIGNED_INT_32_MAX = 2 ** 31 - 1
 
             MAXIMUM = Node::Literal::Primitive::Number.new(SIGNED_INT_32_MAX)
 
