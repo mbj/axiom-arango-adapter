@@ -8,8 +8,10 @@ module Veritas
 
             handle(Veritas::Relation::Operation::Offset)
 
-            # Magic offset from https://github.com/triAGENS/ArangoDB/issues/398#issuecomment-13445098
-            MAGIC = 2147483647
+
+            SIGNED_INT_32_MAX = 31 ** 2 - 1
+
+            MAXIMUM = Node::Literal::Primitive::Number.new(SIGNED_INT_32_MAX)
 
             # Return leaf aql ast
             #
@@ -18,7 +20,7 @@ module Veritas
             # @api private
             #
             def leaf
-              Node::Operation::Nary::Limit.new(Node::Literal::Primitive::Number.new(MAGIC), Node::Literal::Primitive::Number.new(input.offset))
+              Node::Operation::Nary::Limit.new(MAXIMUM, Node::Literal::Primitive::Number.new(input.offset))
             end
             memoize :leaf
 
