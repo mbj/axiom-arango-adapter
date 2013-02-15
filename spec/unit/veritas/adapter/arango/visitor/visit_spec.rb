@@ -29,7 +29,25 @@ describe Veritas::Adapter::Arango::Visitor, '#visit' do
     end
   end
 
-  subject { object.visit(dummy) }
+  context 'with one argument' do
+    subject { object.visit(dummy) }
 
-  it { should be(aql_node) }
+    it { should be(aql_node) }
+
+    it 'should use receiver as context' do
+      test_visitor.should_receive(:new).with(dummy, object).and_return(mock(:root => aql_node))
+      subject
+    end
+  end
+
+  context 'with two arguments' do
+    subject { object.visit(dummy, context) }
+
+    it { should be(aql_node) }
+
+    it 'should explicit context' do
+      test_visitor.should_receive(:new).with(dummy, context).and_return(mock(:root => aql_node))
+      subject
+    end
+  end
 end

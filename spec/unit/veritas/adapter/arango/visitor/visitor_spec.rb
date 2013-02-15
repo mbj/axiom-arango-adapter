@@ -25,7 +25,15 @@ describe Veritas::Adapter::Arango::Visitor, '#visitor' do
     end
   end
 
-  subject { object.visitor(dummy) }
+  context 'with one argument' do
+    subject { object.visitor(dummy) }
 
-  it { should eql(test_visitor.new(dummy, object)) }
+    it { should eql(test_visitor.new(dummy, object)) }
+  end
+
+  context 'with two arguments' do
+    subject { object.visitor(dummy, context) }
+
+    it { should eql(test_visitor.new(dummy, context)) }
+  end
 end
