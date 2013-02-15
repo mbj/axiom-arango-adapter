@@ -6,7 +6,6 @@ module Veritas
         include AbstractType, Adamantium::Flat, Composition.new(:input, :context), AQL
 
         abstract_method :root
-        abstract_method :leaf
 
         # Return AQL node from relation 
         #
@@ -34,6 +33,8 @@ module Veritas
           REGISTRY[klass]=self
         end
 
+        private_class_method :handle
+
         # Test if node can be wrapped within AQL FOR statement
         #
         # @return [true]
@@ -47,8 +48,6 @@ module Veritas
         def wrappable?
           kind_of?(Wrappable)
         end
-
-        private_class_method :handle
 
         # Return visitor for node and context
         #
@@ -68,6 +67,7 @@ module Veritas
         # Return visitor for relation
         #
         # @param [Node] node
+        # @param [Visitor] context
         #
         # @return [Visitor]
         #
@@ -80,6 +80,7 @@ module Veritas
         # Return aql node from visiting veritas node
         #
         # @param [Node] node
+        # @param [Visitor] context
         #
         # @return [AQL::Node]
         #
