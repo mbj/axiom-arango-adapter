@@ -3,10 +3,9 @@ require 'spec_helper'
 describe Veritas::Adapter::Arango::Visitor::For::Binary::Right, '#local_name' do
   subject { object.local_name }
 
-  let(:object) { described_class.new(node, context) }
-
-  let(:node)    { mock('Node') }
-  let(:context) { mock('Context') }
+  let(:object)   { described_class.new(relation, context) }
+  let(:relation) { mock('Relation') }
+  let(:context)  { mock('Context') }
 
   it { should eql(AQL.name_node('right')) }
 

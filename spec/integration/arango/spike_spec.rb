@@ -2,12 +2,12 @@ require 'spec_helper'
 
 describe Veritas::Adapter::Arango, 'aql generation' do
 
-  subject { Veritas::Adapter::Arango::Visitor.run(node) }
+  subject { Veritas::Adapter::Arango::Visitor.run(relation) }
 
   def self.expect_aql(string)
     let(:header)  { Veritas::Relation::Header.coerce([[:foo, String], [:bar, Integer]]) }
     let(:base)    { Veritas::Relation::Base.new(:name, header) }
-    let(:object)  { described_class.new(node, context) }
+    let(:object)  { described_class.new(relation, context) }
 
     let(:header_b) { Veritas::Relation::Header.coerce([[:baz, String], [:boz, Integer]]) }
     let(:base_b)   { Veritas::Relation::Base.new(:name_b, header_b) }
@@ -20,7 +20,7 @@ describe Veritas::Adapter::Arango, 'aql generation' do
   end
 
   context 'join' do
-    let(:node) { base.join(base_c) }
+    let(:relation) { base.join(base_c) }
 
     expect_aql <<-AQL
       FOR `left` IN (FOR `local_name` IN `name` RETURN {"foo": `local_name`.`foo`, "bar": `local_name`.`bar`})
@@ -31,7 +31,7 @@ describe Veritas::Adapter::Arango, 'aql generation' do
   end
 
   context 'product' do
-    let(:node) { base.product(base_b) }
+    let(:relation) { base.product(base_b) }
 
     expect_aql <<-AQL
       FOR `left` IN (FOR `local_name` IN `name` RETURN {"foo": `local_name`.`foo`, "bar": `local_name`.`bar`})
@@ -41,7 +41,7 @@ describe Veritas::Adapter::Arango, 'aql generation' do
   end
 
   context 'no restriction' do
-    let(:node) { base }
+    let(:relation) { base }
 
     expect_aql <<-AQL
       FOR `local_name` IN `name`
@@ -50,7 +50,7 @@ describe Veritas::Adapter::Arango, 'aql generation' do
   end
 
   context 'rename' do
-    let(:node) { base.rename(:bar => :baz) }
+    let(:relation) { base.rename(:bar => :baz) }
 
     expect_aql <<-AQL
       FOR `rename` IN
@@ -60,7 +60,7 @@ describe Veritas::Adapter::Arango, 'aql generation' do
   end
 
   context 'extension' do
-    let(:node) { base.extend { |r| r.add(:baz, r.bar * 2) } }
+    let(:relation) { base.extend { |r| r.add(:baz, r.bar * 2) } }
 
     expect_aql <<-AQL
       FOR `extension` IN
@@ -70,7 +70,7 @@ describe Veritas::Adapter::Arango, 'aql generation' do
   end
 
   context 'projection' do
-    let(:node) { base.project([:bar]) }
+    let(:relation) { base.project([:bar]) }
 
     expect_aql <<-AQL
       FOR `projection` IN
@@ -81,7 +81,7 @@ describe Veritas::Adapter::Arango, 'aql generation' do
   end
 
   context 'simple restriction' do
-    let(:node) { base.restrict { |r| r.foo.eq('bar') } }
+    let(:relation) { base.restrict { |r| r.foo.eq('bar') } }
 
     expect_aql <<-AQL
       FOR `local_name` IN `name`
@@ -91,7 +91,7 @@ describe Veritas::Adapter::Arango, 'aql generation' do
   end
 
   context 'complex restriction' do
-    let(:node) { base.restrict { |r| r.foo.eq('bar').or(r.foo.eq('baz')) } }
+    let(:relation) { base.restrict { |r| r.foo.eq('bar').or(r.foo.eq('baz')) } }
 
     expect_aql <<-AQL
       FOR `local_name` IN `name`
@@ -101,7 +101,7 @@ describe Veritas::Adapter::Arango, 'aql generation' do
   end
 
   context 'nested restriction' do
-    let(:node) do 
+    let(:relation) do 
       base.
         restrict { |r| r.foo.eq('bar') }.
         restrict { |r| r.bar.eq('baz') } 
@@ -121,7 +121,7 @@ describe Veritas::Adapter::Arango, 'aql generation' do
   end
 
   context 'ordered' do
-    let(:node) { ordered }
+    let(:relation) { ordered }
 
     expect_aql <<-AQL
       FOR `local_name` IN `name`
@@ -131,7 +131,7 @@ describe Veritas::Adapter::Arango, 'aql generation' do
   end
 
   context 'offset on base relation' do
-    let(:node) do 
+    let(:relation) do 
       ordered.drop(10)
     end
 
@@ -144,7 +144,7 @@ describe Veritas::Adapter::Arango, 'aql generation' do
   end
 
   context 'limit on base relation' do
-    let(:node) do 
+    let(:relation) do 
       ordered.take(10)
     end
 
@@ -157,7 +157,7 @@ describe Veritas::Adapter::Arango, 'aql generation' do
   end
 
   context 'reversing relation' do
-    let(:node) { ordered.reverse }
+    let(:relation) { ordered.reverse }
 
     expect_aql <<-AQL
       REVERSE((FOR `local_name` IN `name`

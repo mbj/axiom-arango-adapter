@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Veritas::Adapter::Arango::Visitor::For, '#root' do
   subject { object.root.aql }
 
-  let(:object) { class_under_test.new(node, context) }
+  let(:object) { class_under_test.new(relation, context) }
 
   let(:context) { mock('Context') }
 
@@ -18,7 +18,7 @@ describe Veritas::Adapter::Arango::Visitor::For, '#root' do
 
   let(:header)   { Veritas::Relation::Header.coerce([[:id, Integer]]) }
   let(:operand)  { Veritas::Relation::Base.new(:name_a, header)       }
-  let(:node)     { operand.restrict { |r| r.id.eq(1) }                }
+  let(:relation) { operand.restrict { |r| r.id.eq(1) }                }
   let(:local)    { AQL.name_node('local')                             }
   let(:source)   { Veritas::Adapter::Arango::Visitor.run(operand)     }
   let(:body)     { AQL.name_node('foo')  }

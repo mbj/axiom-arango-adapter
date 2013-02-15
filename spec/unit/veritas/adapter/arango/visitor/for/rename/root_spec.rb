@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Veritas::Adapter::Arango::Visitor::For::Rename, '#root' do
   subject { object.root }
 
-  let(:node) { base.rename(:bar => :baz) }
+  let(:relation) { base.rename(:bar => :baz) }
 
   expect_aql <<-AQL
     FOR `rename` IN

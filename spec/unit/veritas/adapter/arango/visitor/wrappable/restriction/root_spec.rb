@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Veritas::Adapter::Arango::Visitor::Wrappable::Restriction, '#root' do
   subject { object.root }
 
-  let(:node)    { base.restrict { |r| r.foo.eq('bar') } }
+  let(:relation) { base.restrict { |r| r.foo.eq('bar') } }
 
   expect_aql <<-AQL
     FOR `local_name` IN `name`

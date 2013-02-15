@@ -1,7 +1,7 @@
 module Veritas
   module Adapter
     module Arango
-      # Base class for node specific visitors
+      # Base class for relation specific visitors
       class Visitor
         include AbstractType, Adamantium::Flat, Composition.new(:input, :context), AQL
 
@@ -9,19 +9,19 @@ module Veritas
 
         # Return AQL node from relation 
         #
-        # @param [Relation] node
+        # @param [Relation] relation
         #
         # @return [AQL::Node]
         #
         # @api private
         #
-        def self.run(node)
-          build(node).root
+        def self.run(relation)
+          build(relation).root
         end
 
         REGISTRY = {}
 
-        # Register handler for veritas node
+        # Register handler for veritas relation
         #
         # @param [Class] klass
         #
@@ -35,10 +35,10 @@ module Veritas
 
         private_class_method :handle
 
-        # Test if node can be wrapped within AQL FOR statement
+        # Test if relation can be wrapped within AQL FOR statement
         #
         # @return [true]
-        #   if node supports beeing consumed inside base
+        #   if relation supports beeing consumed inside base
         #
         # @return [false]
         #   otherwise
@@ -49,45 +49,45 @@ module Veritas
           kind_of?(Wrappable)
         end
 
-        # Return visitor for node and context
+        # Return visitor for relation and context
         #
-        # @param [Node] node
+        # @param [Relation] relation
         # @param [Visitor] context
         #
         # @return [Visitor]
         #
         # @api private
         #
-        def self.build(node, context = nil)
-          REGISTRY.fetch(node.class).new(node, context)
+        def self.build(relation, context = nil)
+          REGISTRY.fetch(relation.class).new(relation, context)
         end
 
       private
 
         # Return visitor for relation
         #
-        # @param [Node] node
+        # @param [Relation] relation
         # @param [Visitor] context
         #
         # @return [Visitor]
         #
         # @api private
         #
-        def visitor(node, context = self)
-          self.class.build(node, context)
+        def visitor(relation, context = self)
+          self.class.build(relation, context)
         end
 
-        # Return aql node from visiting veritas node
+        # Return AQL node from visiting veritas relation
         #
-        # @param [Node] node
+        # @param [Relation] relation
         # @param [Visitor] context
         #
         # @return [AQL::Node]
         #
         # @api private
         #
-        def visit(node, context = self)
-          visitor(node, context).root
+        def visit(relation, context = self)
+          visitor(relation, context).root
         end
 
       end

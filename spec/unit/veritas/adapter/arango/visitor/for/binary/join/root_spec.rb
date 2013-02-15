@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Veritas::Adapter::Arango::Visitor::For::Binary::Join, '#root' do
   subject { object.root }
 
-  let(:node) { base.join(base_c) }
+  let(:relation) { base.join(base_c) }
 
   expect_aql <<-AQL
     FOR `left` IN (FOR `local_name` IN `name` RETURN {"foo": `local_name`.`foo`, "bar": `local_name`.`bar`})

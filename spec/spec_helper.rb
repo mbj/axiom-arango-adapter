@@ -25,7 +25,7 @@ module AQLHelper
   def expect_aql(string)
     let(:header)  { Veritas::Relation::Header.coerce([[:foo, String], [:bar, Integer]]) }
     let(:base)    { Veritas::Relation::Base.new(:name, header) }
-    let(:object)  { described_class.new(node, context) }
+    let(:object)  { described_class.new(relation, context) }
 
     # Disjunct header for projection
     let(:header_b) { Veritas::Relation::Header.coerce([[:baz, String]]) }

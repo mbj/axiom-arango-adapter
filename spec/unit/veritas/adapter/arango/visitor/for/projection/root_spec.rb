@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Veritas::Adapter::Arango::Visitor::For::Projection, '#root' do
-  let(:node) { base.project([:bar]) }
+  let(:relation) { base.project([:bar]) }
 
   subject { object.root }
 

@@ -3,10 +3,10 @@ require 'spec_helper'
 describe Veritas::Adapter::Arango::Visitor, '.build' do
   let(:object) { described_class }
 
-  let(:node)     { mock('Veritas Node')               }
+  let(:relation) { mock('Veritas Node')               }
   let(:aql_node) { mock('AQL Node')                   }
   let(:context)  { mock('Context')                    }
-  let(:build)  { mock('Visitor', :root => aql_node) }
+  let(:build)    { mock('Visitor', :root => aql_node) }
 
   class Dummy
   end

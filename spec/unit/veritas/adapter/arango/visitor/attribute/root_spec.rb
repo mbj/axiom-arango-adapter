@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe Veritas::Adapter::Arango::Visitor::Attribute, '#root' do
-  let(:node)       { base.header[:foo] }
-  let(:context)    { mock('Visitor Context', :local_name => AQL::Node::Name.new('local_name')) }
+  let(:relation) { base.header[:foo] }
+  let(:context)  { mock('Visitor Context', :local_name => AQL::Node::Name.new('local_name')) }
 
   subject { object.root }
 

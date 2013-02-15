@@ -2,7 +2,7 @@ module Veritas
   module Adapter
     module Arango
       class Visitor
-        # Visitor for binary aql nodes
+        # Visitor for binary AQL nodes
         class Binary < self
 
           MAPPING = {

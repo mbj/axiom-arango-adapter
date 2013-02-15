@@ -3,8 +3,8 @@ require 'spec_helper'
 describe Veritas::Adapter::Arango::Visitor::For::Base, '#root' do
   subject { object.root }
 
-  let(:node)    { base                               }
-  let(:object)  { described_class.new(node, context) }
+  let(:relation) { base                                   }
+  let(:object)   { described_class.new(relation, context) }
 
   context 'purse base relation' do
     let(:context) { nil }
