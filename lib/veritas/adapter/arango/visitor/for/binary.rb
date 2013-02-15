@@ -15,6 +15,7 @@ module Veritas
             def local_name
               AQL.name_node(:left)
             end
+            memoize :local_name
 
           private
 
@@ -50,6 +51,7 @@ module Veritas
               def local_name
                 AQL.name_node(:right)
               end
+              memoize :local_name
 
             private
 
