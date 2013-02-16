@@ -12,8 +12,8 @@ describe Veritas::Adapter::Arango::Visitor::For::Base, '#root' do
     subject { object.root }
 
     expect_aql <<-AQL
-      FOR `local_name` IN `name`
-        RETURN {"foo": `local_name`.`foo`, "bar": `local_name`.`bar`}
+      FOR `base` IN `name`
+        RETURN {"foo": `base`.`foo`, "bar": `base`.`bar`}
     AQL
   end
 
@@ -32,9 +32,9 @@ describe Veritas::Adapter::Arango::Visitor::For::Base, '#root' do
 
       # Senseless AQL but proves parent context is taken into account
       expect_aql <<-AQL
-        FOR `local_name` IN `name`
+        FOR `base` IN `name`
           "baz"
-          RETURN {"foo": `local_name`.`foo`, "bar": `local_name`.`bar`}
+          RETURN {"foo": `base`.`foo`, "bar": `base`.`bar`}
       AQL
     end
 
@@ -42,8 +42,8 @@ describe Veritas::Adapter::Arango::Visitor::For::Base, '#root' do
       let(:wrappable?) { false }
 
       expect_aql <<-AQL
-        FOR `local_name` IN `name`
-          RETURN {"foo": `local_name`.`foo`, "bar": `local_name`.`bar`}
+        FOR `base` IN `name`
+          RETURN {"foo": `base`.`foo`, "bar": `base`.`bar`}
       AQL
     end
   end
@@ -75,10 +75,10 @@ describe Veritas::Adapter::Arango::Visitor::For::Base, '#root' do
 
       # Senseless AQL but proves nested contexts are taken into account
       expect_aql <<-AQL
-        FOR `local_name` IN `name`
+        FOR `base` IN `name`
           "context"
           "parent"
-          RETURN {"foo": `local_name`.`foo`, "bar": `local_name`.`bar`}
+          RETURN {"foo": `base`.`foo`, "bar": `base`.`bar`}
       AQL
     end
 
@@ -89,9 +89,9 @@ describe Veritas::Adapter::Arango::Visitor::For::Base, '#root' do
 
       # Senseless AQL but proves nested contexts are taken into account
       expect_aql <<-AQL
-        FOR `local_name` IN `name`
+        FOR `base` IN `name`
           "context"
-          RETURN {"foo": `local_name`.`foo`, "bar": `local_name`.`bar`}
+          RETURN {"foo": `base`.`foo`, "bar": `base`.`bar`}
       AQL
     end
 
@@ -100,8 +100,8 @@ describe Veritas::Adapter::Arango::Visitor::For::Base, '#root' do
       let(:context_wrap?) { false }
 
       expect_aql <<-AQL
-        FOR `local_name` IN `name`
-          RETURN {"foo": `local_name`.`foo`, "bar": `local_name`.`bar`}
+        FOR `base` IN `name`
+          RETURN {"foo": `base`.`foo`, "bar": `base`.`bar`}
       AQL
     end
   end

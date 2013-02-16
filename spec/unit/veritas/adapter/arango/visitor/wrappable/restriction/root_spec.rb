@@ -6,8 +6,8 @@ describe Veritas::Adapter::Arango::Visitor::Wrappable::Restriction, '#root' do
   let(:relation) { base.restrict { |r| r.foo.eq('bar') } }
 
   expect_aql <<-AQL
-    FOR `local_name` IN `name`
-      FILTER (`local_name`.`foo` == "bar")
-      RETURN {"foo": `local_name`.`foo`, "bar": `local_name`.`bar`}
+    FOR `base` IN `name`
+      FILTER (`base`.`foo` == "bar")
+      RETURN {"foo": `base`.`foo`, "bar": `base`.`bar`}
   AQL
 end

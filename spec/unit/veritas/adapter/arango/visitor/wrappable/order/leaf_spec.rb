@@ -1,11 +1,11 @@
 require 'spec_helper'
 
-describe Veritas::Adapter::Arango::Visitor::Wrappable::Restriction, '#leaf' do
+describe Veritas::Adapter::Arango::Visitor::Wrappable::Order, '#leaf' do
   subject { object.leaf }
 
-  let(:relation) { base.restrict { |r| r.foo.eq('bar') } }
+  let(:relation) { base.sort_by { |r| [r.foo.asc, r.bar.asc] } }
 
   expect_aql <<-AQL
-    FILTER (`local_name`.`foo` == "bar")
+    SORT `base`.`foo` ASC, `base`.`bar` ASC
   AQL
 end

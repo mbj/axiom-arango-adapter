@@ -8,16 +8,7 @@ module Veritas
 
             handle(Algebra::Extension)
 
-            # Return local name
-            #
-            # @return [AQL::Name]
-            #
-            # @api private
-            #
-            def local_name
-              AQL.name_node('extension')
-            end
-            memoize :local_name
+            LOCAL_NAME = AQL.name_node('extension')
 
           private
 

@@ -6,8 +6,8 @@ describe Veritas::Adapter::Arango::Visitor::For::Binary::Product, '#root' do
   let(:relation) { base.product(base_b) }
 
   expect_aql <<-AQL
-    FOR `left` IN (FOR `local_name` IN `name` RETURN {"foo": `local_name`.`foo`, "bar": `local_name`.`bar`})
-      FOR `right` IN (FOR `local_name_b` IN `name_b` RETURN {"baz": `local_name_b`.`baz`})
+    FOR `left` IN (FOR `base` IN `name` RETURN {"foo": `base`.`foo`, "bar": `base`.`bar`})
+      FOR `right` IN (FOR `base` IN `name_b` RETURN {"baz": `base`.`baz`})
         RETURN {"foo": `left`.`foo`, "bar": `left`.`bar`, "baz": `right`.`baz`}
   AQL
 end

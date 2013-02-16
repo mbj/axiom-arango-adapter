@@ -6,8 +6,8 @@ describe Veritas::Adapter::Arango::Visitor::Wrappable::Order, '#root' do
   let(:relation) { base.sort_by { |r| [r.foo.asc, r.bar.asc] } }
 
   expect_aql <<-AQL
-    FOR `local_name` IN `name`
-      SORT `local_name`.`foo` ASC, `local_name`.`bar` ASC
-      RETURN {"foo": `local_name`.`foo`, "bar": `local_name`.`bar`}
+    FOR `base` IN `name`
+      SORT `base`.`foo` ASC, `base`.`bar` ASC
+      RETURN {"foo": `base`.`foo`, "bar": `base`.`bar`}
   AQL
 end

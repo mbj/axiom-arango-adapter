@@ -8,16 +8,7 @@ module Veritas
 
             handle(Veritas::Relation::Base)
 
-            # Return local name
-            #
-            # @return [AQL::Node::Name]
-            # 
-            # @api private
-            #
-            def local_name
-              AQL.name_node("local_#{input.name}")
-            end
-            memoize :local_name
+            LOCAL_NAME = AQL.name_node('base')
 
           private
 

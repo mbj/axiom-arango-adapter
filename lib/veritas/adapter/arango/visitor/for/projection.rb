@@ -8,16 +8,7 @@ module Veritas
 
             handle(Algebra::Projection)
 
-            # Return local name
-            #
-            # @return [AQL::Name]
-            #
-            # @api private
-            #
-            def local_name
-              AQL.name_node('projection')
-            end
-            memoize :local_name
+            LOCAL_NAME = AQL.name_node('projection')
 
           end
         end

@@ -23,8 +23,8 @@ describe Veritas::Adapter::Arango, 'aql generation' do
     let(:relation) { base.join(base_c) }
 
     expect_aql <<-AQL
-      FOR `left` IN (FOR `local_name` IN `name` RETURN {"foo": `local_name`.`foo`, "bar": `local_name`.`bar`})
-        FOR `right` IN (FOR `local_name_c` IN `name_c` RETURN {"baz": `local_name_c`.`baz`, "bar": `local_name_c`.`bar`})
+      FOR `left` IN (FOR `base` IN `name` RETURN {"foo": `base`.`foo`, "bar": `base`.`bar`})
+        FOR `right` IN (FOR `base` IN `name_c` RETURN {"baz": `base`.`baz`, "bar": `base`.`bar`})
           FILTER (`left`.`bar` == `right`.`bar`)
           RETURN {"foo": `left`.`foo`, "bar": `left`.`bar`, "baz": `right`.`baz`}
     AQL
@@ -34,8 +34,8 @@ describe Veritas::Adapter::Arango, 'aql generation' do
     let(:relation) { base.product(base_b) }
 
     expect_aql <<-AQL
-      FOR `left` IN (FOR `local_name` IN `name` RETURN {"foo": `local_name`.`foo`, "bar": `local_name`.`bar`})
-        FOR `right` IN (FOR `local_name_b` IN `name_b` RETURN {"baz": `local_name_b`.`baz`, "boz": `local_name_b`.`boz`})
+      FOR `left` IN (FOR `base` IN `name` RETURN {"foo": `base`.`foo`, "bar": `base`.`bar`})
+        FOR `right` IN (FOR `base` IN `name_b` RETURN {"baz": `base`.`baz`, "boz": `base`.`boz`})
           RETURN {"foo": `left`.`foo`, "bar": `left`.`bar`, "baz": `right`.`baz`, "boz": `right`.`boz`}
     AQL
   end
@@ -44,8 +44,8 @@ describe Veritas::Adapter::Arango, 'aql generation' do
     let(:relation) { base }
 
     expect_aql <<-AQL
-      FOR `local_name` IN `name`
-        RETURN {"foo": `local_name`.`foo`, "bar": `local_name`.`bar`}
+      FOR `base` IN `name`
+        RETURN {"foo": `base`.`foo`, "bar": `base`.`bar`}
     AQL
   end
 
@@ -54,7 +54,7 @@ describe Veritas::Adapter::Arango, 'aql generation' do
 
     expect_aql <<-AQL
       FOR `rename` IN
-        (FOR `local_name` IN `name` RETURN {"foo": `local_name`.`foo`, "bar": `local_name`.`bar`})
+        (FOR `base` IN `name` RETURN {"foo": `base`.`foo`, "bar": `base`.`bar`})
         RETURN {"foo": `rename`.`foo`, "baz": `rename`.`bar`}
     AQL
   end
@@ -64,7 +64,7 @@ describe Veritas::Adapter::Arango, 'aql generation' do
 
     expect_aql <<-AQL
       FOR `extension` IN
-        (FOR `local_name` IN `name` RETURN {"foo": `local_name`.`foo`, "bar": `local_name`.`bar`})
+        (FOR `base` IN `name` RETURN {"foo": `base`.`foo`, "bar": `base`.`bar`})
         RETURN MERGE(`extension`, {"baz": (`extension`.`bar` * 2)})
     AQL
   end
@@ -74,8 +74,8 @@ describe Veritas::Adapter::Arango, 'aql generation' do
 
     expect_aql <<-AQL
       FOR `projection` IN
-        (FOR `local_name` IN `name`
-        RETURN {"foo": `local_name`.`foo`, "bar": `local_name`.`bar`})
+        (FOR `base` IN `name`
+        RETURN {"foo": `base`.`foo`, "bar": `base`.`bar`})
         RETURN {"bar": `projection`.`bar`}
     AQL
   end
@@ -84,9 +84,9 @@ describe Veritas::Adapter::Arango, 'aql generation' do
     let(:relation) { base.restrict { |r| r.foo.eq('bar') } }
 
     expect_aql <<-AQL
-      FOR `local_name` IN `name`
-        FILTER (`local_name`.`foo` == "bar")
-        RETURN {"foo": `local_name`.`foo`, "bar": `local_name`.`bar`}
+      FOR `base` IN `name`
+        FILTER (`base`.`foo` == "bar")
+        RETURN {"foo": `base`.`foo`, "bar": `base`.`bar`}
     AQL
   end
 
@@ -94,9 +94,9 @@ describe Veritas::Adapter::Arango, 'aql generation' do
     let(:relation) { base.restrict { |r| r.foo.eq('bar').or(r.foo.eq('baz')) } }
 
     expect_aql <<-AQL
-      FOR `local_name` IN `name`
-        FILTER ((`local_name`.`foo` == "bar") || (`local_name`.`foo` == "baz"))
-        RETURN {"foo": `local_name`.`foo`, "bar": `local_name`.`bar`}
+      FOR `base` IN `name`
+        FILTER ((`base`.`foo` == "bar") || (`base`.`foo` == "baz"))
+        RETURN {"foo": `base`.`foo`, "bar": `base`.`bar`}
     AQL
   end
 
@@ -108,10 +108,10 @@ describe Veritas::Adapter::Arango, 'aql generation' do
     end
 
     expect_aql <<-AQL
-      FOR `local_name` IN `name`
-        FILTER (`local_name`.`foo` == "bar")
-        FILTER (`local_name`.`bar` == "baz")
-        RETURN {"foo": `local_name`.`foo`, "bar": `local_name`.`bar`}
+      FOR `base` IN `name`
+        FILTER (`base`.`foo` == "bar")
+        FILTER (`base`.`bar` == "baz")
+        RETURN {"foo": `base`.`foo`, "bar": `base`.`bar`}
     AQL
   end
 
@@ -124,9 +124,9 @@ describe Veritas::Adapter::Arango, 'aql generation' do
     let(:relation) { ordered }
 
     expect_aql <<-AQL
-      FOR `local_name` IN `name`
-        SORT `local_name`.`foo` ASC, `local_name`.`bar` ASC
-        RETURN {"foo": `local_name`.`foo`, "bar": `local_name`.`bar`}
+      FOR `base` IN `name`
+        SORT `base`.`foo` ASC, `base`.`bar` ASC
+        RETURN {"foo": `base`.`foo`, "bar": `base`.`bar`}
     AQL
   end
 
@@ -136,10 +136,10 @@ describe Veritas::Adapter::Arango, 'aql generation' do
     end
 
     expect_aql <<-AQL
-      FOR `local_name` IN `name`
-        SORT `local_name`.`foo` ASC, `local_name`.`bar` ASC
+      FOR `base` IN `name`
+        SORT `base`.`foo` ASC, `base`.`bar` ASC
         LIMIT 10, 2147483647
-        RETURN {"foo": `local_name`.`foo`, "bar": `local_name`.`bar`}
+        RETURN {"foo": `base`.`foo`, "bar": `base`.`bar`}
     AQL
   end
 
@@ -149,10 +149,10 @@ describe Veritas::Adapter::Arango, 'aql generation' do
     end
 
     expect_aql <<-AQL
-      FOR `local_name` IN `name`
-        SORT `local_name`.`foo` ASC, `local_name`.`bar` ASC
+      FOR `base` IN `name`
+        SORT `base`.`foo` ASC, `base`.`bar` ASC
         LIMIT 0, 10
-        RETURN {"foo": `local_name`.`foo`, "bar": `local_name`.`bar`}
+        RETURN {"foo": `base`.`foo`, "bar": `base`.`bar`}
     AQL
   end
 
@@ -160,9 +160,9 @@ describe Veritas::Adapter::Arango, 'aql generation' do
     let(:relation) { ordered.reverse }
 
     expect_aql <<-AQL
-      REVERSE((FOR `local_name` IN `name`
-        SORT `local_name`.`foo` ASC, `local_name`.`bar` ASC
-        RETURN {"foo": `local_name`.`foo`, "bar": `local_name`.`bar`}))
+      REVERSE((FOR `base` IN `name`
+        SORT `base`.`foo` ASC, `base`.`bar` ASC
+        RETURN {"foo": `base`.`foo`, "bar": `base`.`bar`}))
     AQL
   end
 end

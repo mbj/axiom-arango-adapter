@@ -18,6 +18,16 @@ module Veritas
 
           abstract_method :local_name
 
+          # Return local name
+          #
+          # @return [AQL::Node::Name]
+          #
+          # @api private
+          #
+          def local_name
+            self.class::LOCAL_NAME
+          end
+
         private
 
           # Return source

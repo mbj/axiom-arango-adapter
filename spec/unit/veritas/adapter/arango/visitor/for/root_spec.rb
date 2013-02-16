@@ -23,7 +23,7 @@ describe Veritas::Adapter::Arango::Visitor::For, '#root' do
   let(:source)   { Veritas::Adapter::Arango::Visitor.run(operand)     }
   let(:body)     { AQL.name_node('foo')  }
 
-  it { should eql('FOR `local` IN (FOR `local_name_a` IN `name_a` RETURN {"id": `local_name_a`.`id`}) RETURN {"id": `local`.`id`}') }
+  it { should eql('FOR `local` IN (FOR `base` IN `name_a` RETURN {"id": `base`.`id`}) RETURN {"id": `local`.`id`}') }
 
   it_should_behave_like 'an idempotent method'
 end

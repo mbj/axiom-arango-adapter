@@ -6,16 +6,7 @@ module Veritas
           # Base class for binary relation visitors
           class Binary < self
 
-            # Return local name
-            #
-            # @return [AQL::Node::Name]
-            #
-            # @api private
-            #
-            def local_name
-              AQL.name_node(:left)
-            end
-            memoize :local_name
+            LOCAL_NAME = AQL.name_node('left')
 
           private
 
