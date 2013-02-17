@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Veritas::Adapter::Arango::Visitor::For::Extension, '#root' do
+describe Veritas::Adapter::Arango::Visitor::For::Unary::Extension, '#root' do
   let(:relation) { base.extend { |r| r.add(:baz, r.bar * 2) }                  }
 
   subject { object.root }

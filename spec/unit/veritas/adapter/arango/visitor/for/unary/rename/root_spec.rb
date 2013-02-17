@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Veritas::Adapter::Arango::Visitor::For::Rename, '#root' do
+describe Veritas::Adapter::Arango::Visitor::For::Unary::Rename, '#root' do
   subject { object.root }
 
   let(:relation) { base.rename(:bar => :baz) }

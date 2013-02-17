@@ -30,6 +30,17 @@ describe Veritas::Adapter::Arango, 'aql generation' do
     AQL
   end
 
+# context 'offseting join' do
+#   let(:relation) { base.join(base_c).sort_by { |r| [r.foo.asc, r.bar.asc, r.baz.asc] }.drop(2) }
+
+#   expect_aql <<-AQL
+#     FOR `left` IN (FOR `base` IN `name` RETURN {"foo": `base`.`foo`, "bar": `base`.`bar`})
+#       FOR `right` IN (FOR `base` IN `name_c` RETURN {"baz": `base`.`baz`, "bar": `base`.`bar`})
+#         FILTER (`left`.`bar` == `right`.`bar`)
+#         RETURN {"foo": `left`.`foo`, "bar": `left`.`bar`, "baz": `right`.`baz`}
+#   AQL
+# end
+
   context 'product' do
     let(:relation) { base.product(base_b) }
 
@@ -74,8 +85,7 @@ describe Veritas::Adapter::Arango, 'aql generation' do
 
     expect_aql <<-AQL
       FOR `projection` IN
-        (FOR `base` IN `name`
-        RETURN {"foo": `base`.`foo`, "bar": `base`.`bar`})
+        (FOR `base` IN `name` RETURN {"foo": `base`.`foo`, "bar": `base`.`bar`})
         RETURN {"bar": `projection`.`bar`}
     AQL
   end
@@ -84,9 +94,9 @@ describe Veritas::Adapter::Arango, 'aql generation' do
     let(:relation) { base.restrict { |r| r.foo.eq('bar') } }
 
     expect_aql <<-AQL
-      FOR `base` IN `name`
-        FILTER (`base`.`foo` == "bar")
-        RETURN {"foo": `base`.`foo`, "bar": `base`.`bar`}
+      FOR `restriction` IN (FOR `base` IN `name` RETURN {"foo": `base`.`foo`, "bar": `base`.`bar`})
+        FILTER (`restriction`.`foo` == "bar")
+        RETURN {"foo": `restriction`.`foo`, "bar": `restriction`.`bar`}
     AQL
   end
 
@@ -94,13 +104,13 @@ describe Veritas::Adapter::Arango, 'aql generation' do
     let(:relation) { base.restrict { |r| r.foo.eq('bar').or(r.foo.eq('baz')) } }
 
     expect_aql <<-AQL
-      FOR `base` IN `name`
-        FILTER ((`base`.`foo` == "bar") || (`base`.`foo` == "baz"))
-        RETURN {"foo": `base`.`foo`, "bar": `base`.`bar`}
+      FOR `restriction` IN (FOR `base` IN `name` RETURN {"foo": `base`.`foo`, "bar": `base`.`bar`})
+        FILTER ((`restriction`.`foo` == "bar") || (`restriction`.`foo` == "baz"))
+        RETURN {"foo": `restriction`.`foo`, "bar": `restriction`.`bar`}
     AQL
   end
 
-  context 'nested restriction' do
+  pending 'nested restriction' do
     let(:relation) do 
       base.
         restrict { |r| r.foo.eq('bar') }.
@@ -108,10 +118,11 @@ describe Veritas::Adapter::Arango, 'aql generation' do
     end
 
     expect_aql <<-AQL
-      FOR `base` IN `name`
+      FOR `restriction` IN (
+        FOR `restriction` IN (FOR `base` IN `name` RETURN {"foo": `base`.`foo`, "bar": `base`.`bar`})
+          FILTER (`base`.`bar` == "baz")
+        )
         FILTER (`base`.`foo` == "bar")
-        FILTER (`base`.`bar` == "baz")
-        RETURN {"foo": `base`.`foo`, "bar": `base`.`bar`}
     AQL
   end
 
@@ -124,22 +135,24 @@ describe Veritas::Adapter::Arango, 'aql generation' do
     let(:relation) { ordered }
 
     expect_aql <<-AQL
-      FOR `base` IN `name`
-        SORT `base`.`foo` ASC, `base`.`bar` ASC
-        RETURN {"foo": `base`.`foo`, "bar": `base`.`bar`}
+      FOR `order` IN (FOR `base` IN `name` RETURN {"foo": `base`.`foo`, "bar": `base`.`bar`})
+        SORT `order`.`foo` ASC, `order`.`bar` ASC
+        RETURN {"foo": `order`.`foo`, "bar": `order`.`bar`}
     AQL
   end
 
-  context 'offset on base relation' do
+  context 'offset ' do
     let(:relation) do 
       ordered.drop(10)
     end
 
     expect_aql <<-AQL
-      FOR `base` IN `name`
-        SORT `base`.`foo` ASC, `base`.`bar` ASC
+      FOR `offset` IN
+        (FOR `order` IN (FOR `base` IN `name` RETURN {"foo": `base`.`foo`, "bar": `base`.`bar`})
+          SORT `order`.`foo` ASC, `order`.`bar` ASC
+          RETURN {"foo": `order`.`foo`, "bar": `order`.`bar`})
         LIMIT 10, 2147483647
-        RETURN {"foo": `base`.`foo`, "bar": `base`.`bar`}
+        RETURN {"foo": `offset`.`foo`, "bar": `offset`.`bar`}
     AQL
   end
 
@@ -149,10 +162,12 @@ describe Veritas::Adapter::Arango, 'aql generation' do
     end
 
     expect_aql <<-AQL
-      FOR `base` IN `name`
-        SORT `base`.`foo` ASC, `base`.`bar` ASC
+      FOR `limit` IN
+        (FOR `order` IN (FOR `base` IN `name` RETURN {"foo": `base`.`foo`, "bar": `base`.`bar`})
+          SORT `order`.`foo` ASC, `order`.`bar` ASC
+          RETURN {"foo": `order`.`foo`, "bar": `order`.`bar`})
         LIMIT 0, 10
-        RETURN {"foo": `base`.`foo`, "bar": `base`.`bar`}
+        RETURN {"foo": `limit`.`foo`, "bar": `limit`.`bar`}
     AQL
   end
 
@@ -160,9 +175,10 @@ describe Veritas::Adapter::Arango, 'aql generation' do
     let(:relation) { ordered.reverse }
 
     expect_aql <<-AQL
-      REVERSE((FOR `base` IN `name`
-        SORT `base`.`foo` ASC, `base`.`bar` ASC
-        RETURN {"foo": `base`.`foo`, "bar": `base`.`bar`}))
+      REVERSE((FOR `order` IN
+        (FOR `base` IN `name` RETURN {"foo": `base`.`foo`, "bar": `base`.`bar`})
+        SORT `order`.`foo` ASC, `order`.`bar` ASC
+        RETURN {"foo": `order`.`foo`, "bar": `order`.`bar`}))
     AQL
   end
 end

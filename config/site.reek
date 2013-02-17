@@ -27,8 +27,7 @@ LongParameterList:
   overrides: {}
 FeatureEnvy:
   exclude: 
-  - Veritas::Adapter::Arango::Visitor::For::Base#leaves # TODO: Fix
-  - Veritas::Adapter::Arango::Visitor::Wrappable::Order#direction # False positive
+  - Veritas::Adapter::Arango::Visitor::For::Unary::Order#direction # False positive
   enabled: true
 ClassVariable:
   exclude: []

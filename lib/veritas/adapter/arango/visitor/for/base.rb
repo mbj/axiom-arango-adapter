@@ -22,22 +22,6 @@ module Veritas
               AQL.name_node(input.name)
             end
 
-            # Return leaves
-            #
-            # @return [Enumerable<AQL::Node>]
-            #
-            # @api private
-            #
-            def leaves
-              leaves = []
-              current = context
-              while current and current.wrappable?
-                leaves << current.leaf
-                current = current.context
-              end
-              leaves
-            end
-
             # Return body of for statement
             #
             # @return [AQL::Node::Body]
@@ -45,9 +29,7 @@ module Veritas
             # @api private
             #
             def body
-              body = leaves
-              body << return_operation
-              Node::Block.new(body)
+              Node::Block.new([return_operation])
             end
 
           end 

@@ -35,20 +35,6 @@ module Veritas
 
         private_class_method :handle
 
-        # Test if relation can be wrapped within AQL FOR statement
-        #
-        # @return [true]
-        #   if relation supports beeing consumed inside base
-        #
-        # @return [false]
-        #   otherwise
-        #
-        # @api private
-        #
-        def wrappable?
-          kind_of?(Wrappable)
-        end
-
         # Return visitor for relation and context
         #
         # @param [Relation] relation
