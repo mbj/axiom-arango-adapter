@@ -30,16 +30,22 @@ describe Veritas::Adapter::Arango, 'aql generation' do
     AQL
   end
 
-# context 'offseting join' do
-#   let(:relation) { base.join(base_c).sort_by { |r| [r.foo.asc, r.bar.asc, r.baz.asc] }.drop(2) }
+  context 'limiting join' do
+    let(:relation) { base.join(base_c).sort_by { |r| [r.foo.asc, r.bar.asc, r.baz.asc] }.take(2) }
 
-#   expect_aql <<-AQL
-#     FOR `left` IN (FOR `base` IN `name` RETURN {"foo": `base`.`foo`, "bar": `base`.`bar`})
-#       FOR `right` IN (FOR `base` IN `name_c` RETURN {"baz": `base`.`baz`, "bar": `base`.`bar`})
-#         FILTER (`left`.`bar` == `right`.`bar`)
-#         RETURN {"foo": `left`.`foo`, "bar": `left`.`bar`, "baz": `right`.`baz`}
-#   AQL
-# end
+    expect_aql <<-AQL
+      FOR `limit` IN
+        (FOR `order` IN
+          (FOR `left` IN (FOR `base` IN `name` RETURN {"foo": `base`.`foo`, "bar": `base`.`bar`})
+            FOR `right` IN (FOR `base` IN `name_c` RETURN {"baz": `base`.`baz`, "bar": `base`.`bar`})
+              FILTER (`left`.`bar` == `right`.`bar`)
+              RETURN {"foo": `left`.`foo`, "bar": `left`.`bar`, "baz": `right`.`baz`})
+          SORT `order`.`foo` ASC, `order`.`bar` ASC, `order`.`baz` ASC
+          RETURN {"foo": `order`.`foo`, "bar": `order`.`bar`, "baz": `order`.`baz`})
+        LIMIT 0, 2
+        RETURN {"foo": `limit`.`foo`, "bar": `limit`.`bar`, "baz": `limit`.`baz`}
+    AQL
+  end
 
   context 'product' do
     let(:relation) { base.product(base_b) }
