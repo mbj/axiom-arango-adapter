@@ -10,6 +10,7 @@ module Veritas
   end
 end
 
+require 'veritas/adapter/arango/gateway'
 require 'veritas/adapter/arango/visitor'
 require 'veritas/adapter/arango/visitor/literal'
 require 'veritas/adapter/arango/visitor/binary'
