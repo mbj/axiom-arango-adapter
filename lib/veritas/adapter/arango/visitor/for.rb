@@ -16,8 +16,6 @@ module Veritas
           end
           memoize :root
 
-          abstract_method :local_name
-
           # Return local name
           #
           # @return [AQL::Node::Name]

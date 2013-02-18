@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Veritas::Adapter::Arango::Visitor::For::Unary, '#local_name' do
+describe Veritas::Adapter::Arango::Visitor::For, '#local_name' do
   subject { object.local_name }
   let(:object) { class_under_test.new(relation, context) }
   let(:relation) { mock('Relation') }
