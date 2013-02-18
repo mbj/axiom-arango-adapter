@@ -16,6 +16,7 @@ module Veritas
           def root
             Node::Call.new(self.class::FUNCTION, [mapped])
           end
+          memoize :root
 
         private
 
