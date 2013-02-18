@@ -160,7 +160,7 @@ describe Veritas::Adapter::Arango, 'aql generation' do
     AQL
   end
 
-  pending 'nested restriction' do
+  context 'nested restriction' do
     let(:relation) do 
       base.
         restrict { |r| r.foo.eq('bar') }.
@@ -168,11 +168,12 @@ describe Veritas::Adapter::Arango, 'aql generation' do
     end
 
     expect_aql <<-AQL
-      FOR `restriction` IN (
-        FOR `restriction` IN (FOR `base` IN `name` RETURN {"foo": `base`.`foo`, "bar": `base`.`bar`})
-          FILTER (`base`.`bar` == "baz")
-        )
-        FILTER (`base`.`foo` == "bar")
+      FOR `restriction` IN
+        (FOR `restriction` IN (FOR `base` IN `name` RETURN {"foo": `base`.`foo`, "bar": `base`.`bar`})
+          FILTER (`restriction`.`foo` == "bar")
+          RETURN {"foo": `restriction`.`foo`, "bar": `restriction`.`bar`})
+        FILTER (`restriction`.`bar` == "baz")
+        RETURN {"foo": `restriction`.`foo`, "bar": `restriction`.`bar`}
     AQL
   end
 
