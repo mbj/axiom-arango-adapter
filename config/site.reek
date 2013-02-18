@@ -9,7 +9,8 @@ UncommunicativeParameterName:
   - !ruby/regexp /[A-Z]/
 LargeClass:
   max_methods: 10
-  exclude: []
+  exclude: 
+  - Veritas::Adapter::Arango::Gateway # 18 method and will be replaced with the shared gateway once ready
   enabled: true
   max_instance_variables: 2
 UncommunicativeMethodName:
@@ -22,12 +23,18 @@ UncommunicativeMethodName:
   - !ruby/regexp /[A-Z]/
 LongParameterList:
   max_params: 2  
-  exclude: []
+  exclude:
+  - Veritas::Adapter::Arango::Gateway#binary_operation # 3 paramters will be replaced with the shared gateway once ready
   enabled: true
   overrides: {}
 FeatureEnvy:
   exclude: 
   - Veritas::Adapter::Arango::Visitor::For::Unary::Order#direction # False positive
+  # All are from importing Gateway from veritas-do-adapter, the shared gateway will not have these issues 
+  - Veritas::Adapter::Arango::Gateway#same_adapter?
+  - Veritas::Adapter::Arango::Gateway#gateway?
+  - Veritas::Adapter::Arango::Gateway#summarize_merge?
+  - Veritas::Adapter::Arango::Gateway#summarize_merge
   enabled: true
 ClassVariable:
   exclude: []
