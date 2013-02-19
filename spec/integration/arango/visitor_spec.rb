@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Veritas::Adapter::Arango, 'aql generation' do
+describe Veritas::Adapter::Arango::Visitor, 'aql generation' do
 
   subject { Veritas::Adapter::Arango::Visitor.run(relation) }
 
