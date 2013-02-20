@@ -12,11 +12,12 @@ describe Veritas::Adapter::Arango::Reader, '#each' do
   let(:query)      { mock('Query')                                                       }
   let(:yields)     { []                                                                  }
   let(:cursor)     { [document_a, document_b]                                            }
-  let(:document_a) { { 'id' => 1, 'name' => 'Markus Schirp' }                            }
-  let(:document_b) { { 'id' => 2, 'name' => 'John Doe' }                                 }
-
-  let(:tuple_a)   { Veritas::Tuple.new(header, document_a.values_at('id', 'name')) }
-  let(:tuple_b)   { Veritas::Tuple.new(header, document_b.values_at('id', 'name')) }
+  let(:document_a) { mock('Document A', :to_hash => hash_a)                              }
+  let(:document_b) { mock('Document B', :to_hash => hash_b)                              }
+  let(:hash_a)     { { 'id' => 1, 'name' => 'Markus Schirp' }                            }
+  let(:hash_b)     { { 'id' => 2, 'name' => 'John Doe' }                                 }
+  let(:tuple_a)    { Veritas::Tuple.new(header, document_a.values_at('id', 'name'))      }
+  let(:tuple_b)    { Veritas::Tuple.new(header, document_b.values_at('id', 'name'))      }
 
   subject { object.each { |item| yields << item } }
 
