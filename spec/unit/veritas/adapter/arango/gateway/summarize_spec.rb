@@ -119,7 +119,7 @@ describe Veritas::Adapter::Arango::Gateway, '#summarize' do
     before do
       relation.stub!(:header).and_return(header)
       Veritas::Algebra::Summarization.stub!(:new).and_return(summarization)
-      Veritas::Evaluator::Context.stub!(:new).and_return(context)
+      Veritas::Evaluator::Context.stub!(:new).with(context_header, &block).and_return(context)
     end
 
     it { should equal(summarization) }
@@ -135,7 +135,10 @@ describe Veritas::Adapter::Arango::Gateway, '#summarize' do
     end
 
     it 'forwards the block to the context' do
-      Veritas::Evaluator::Context.stub!(:new) { |_header, &proc| proc.should equal(block) }.and_return(context)
+      Veritas::Evaluator::Context.should_receive(:new) do |_header, &proc| 
+        proc.should equal(block) 
+        context
+      end
       subject
     end
 
