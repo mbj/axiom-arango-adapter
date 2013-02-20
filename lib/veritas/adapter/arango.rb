@@ -1,6 +1,7 @@
 require 'veritas'
 require 'aql'
 require 'ashikawa-core'
+require 'null_logger'
 
 module Veritas
   # Namespace for veritas adapters

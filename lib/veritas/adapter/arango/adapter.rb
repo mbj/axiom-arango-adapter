@@ -4,7 +4,20 @@ module Veritas
 
       # Adapter to read tuples from remote elasticsearch database
       class Adapter
-        include Adamantium::Flat, Composition.new(:database)
+        include Adamantium::Flat, Composition.new(:database, :logger)
+
+        # Return new adapter
+        #
+        # @param [Ashikawa::Core::Database] database
+        # @param [NullLogger] logger
+        #
+        # @return [undefined]
+        #
+        # @api private
+        #
+        def self.new(database, logger = NullLogger.instance)
+          super
+        end
 
         # Return reader for base relation
         #
