@@ -258,8 +258,18 @@ module Veritas
           if materialized?
             inner_relation
           else
-            DECORATED_CLASS.new(header, adapter.read(inner_relation))
+            read_tuples
           end
+        end
+
+        # Return tuple reader
+        #
+        # @return [Enumerable<Tuple>]
+        #
+        # @api private
+        #
+        def read_tuples
+          adapter.reader(relation)
         end
 
         # Return a binary relation

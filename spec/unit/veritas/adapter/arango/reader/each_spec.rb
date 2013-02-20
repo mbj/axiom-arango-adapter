@@ -1,23 +1,23 @@
 require 'spec_helper'
 
 describe Veritas::Adapter::Arango::Reader, '#each' do
-  let(:object)     { described_class.new(adapter, relation)                              }
-  let(:adapter)    { mock('Adapter', :database => database, :logger => logger)           }
-  let(:aql_node)   { mock('AQL Node', :aql => aql)                                       }
-  let(:aql)        { mock('AQL')                                                         }
-  let(:logger)     { mock('Logger')                                                      }
-  let(:header)     { Veritas::Relation::Header.coerce([[:id, Integer], [:name, String]]) }
-  let(:relation)   { mock('Relation', :header => header)                                 }
-  let(:database)   { mock('Database', :query => query)                                   }
-  let(:query)      { mock('Query')                                                       }
-  let(:yields)     { []                                                                  }
-  let(:cursor)     { [document_a, document_b]                                            }
-  let(:document_a) { mock('Document A', :to_hash => hash_a)                              }
-  let(:document_b) { mock('Document B', :to_hash => hash_b)                              }
-  let(:hash_a)     { { 'id' => 1, 'name' => 'Markus Schirp' }                            }
-  let(:hash_b)     { { 'id' => 2, 'name' => 'John Doe' }                                 }
-  let(:tuple_a)    { Veritas::Tuple.new(header, document_a.values_at('id', 'name'))      }
-  let(:tuple_b)    { Veritas::Tuple.new(header, document_b.values_at('id', 'name'))      }
+  let(:object)     { described_class.new(adapter, relation)                                 }
+  let(:adapter)    { mock('Adapter', :database => database, :logger => logger)              }
+  let(:aql_node)   { mock('AQL Node', :aql => aql)                                          }
+  let(:aql)        { mock('AQL')                                                            }
+  let(:logger)     { mock('Logger')                                                         }
+  let(:header)     { Veritas::Relation::Header.coerce([[:id, Integer], [:name, String]])    }
+  let(:relation)   { mock('Relation', :header => header)                                    }
+  let(:database)   { mock('Database', :query => query)                                      }
+  let(:query)      { mock('Query')                                                          }
+  let(:yields)     { []                                                                     }
+  let(:cursor)     { [document_a, document_b]                                               }
+  let(:document_a) { mock('Document A', :to_hash => hash_a)                                 }
+  let(:document_b) { mock('Document B', :to_hash => hash_b)                                 }
+  let(:hash_a)     { { 'id' => 1, 'name' => 'Markus Schirp' }                               }
+  let(:hash_b)     { { 'id' => 2, 'name' => 'John Doe' }                                    }
+  let(:tuple_a)    { Veritas::Tuple.new(header, document_a.to_hash.values_at('id', 'name')) }
+  let(:tuple_b)    { Veritas::Tuple.new(header, document_b.to_hash.values_at('id', 'name')) }
 
   subject { object.each { |item| yields << item } }
 

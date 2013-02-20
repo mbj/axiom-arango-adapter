@@ -11,20 +11,20 @@ describe Veritas::Adapter::Arango::Gateway, '#each' do
   let(:adapter)  { mock('Adapter')                        }
   let(:relation) { mock('Relation')                       }
   let!(:object)  { described_class.new(adapter, relation) }
+  let(:reader)   { [tuple]                                }
   let(:yields)   { []                                     }
+
+  before do
+    adapter.stub(:reader => reader)
+  end
 
   context 'with an unmaterialized relation' do
     let(:wrapper) { stub }
 
     before do
-      adapter.stub!(:read).and_return(reader)
-
       relation.stub!(:header).and_return(header)
       relation.stub!(:materialized?).and_return(false)
       relation.stub!(:each).and_return(relation)
-
-      wrapper.stub!(:each).and_yield(tuple)
-      Veritas::Relation.stub!(:new).and_return(wrapper)
     end
 
     it_should_behave_like 'an #each method'
@@ -36,12 +36,7 @@ describe Veritas::Adapter::Arango::Gateway, '#each' do
     end
 
     it 'passes in the relation to the adapter reader' do
-      adapter.should_receive(:read).with(relation)
-      subject
-    end
-
-    it 'passes in the relation header and reader to the wrapper constructor' do
-      Veritas::Relation.should_receive(:new).with(header, reader)
+      adapter.should_receive(:reader).with(relation).and_return(reader)
       subject
     end
   end
