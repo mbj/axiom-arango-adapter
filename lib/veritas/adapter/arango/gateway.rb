@@ -237,9 +237,9 @@ module Veritas
         #
         # @api private
         def forward(*args, &block)
-          relation = self.relation
-          response = relation.public_send(*args, &block)
-          if response.equal?(relation)
+          inner_relation = relation
+          response = inner_relation.public_send(*args, &block)
+          if response.equal?(inner_relation)
             self
           elsif response.kind_of?(DECORATED_CLASS)
             self.class.new(adapter, response)
@@ -254,11 +254,11 @@ module Veritas
         #
         # @api private
         def tuples
-          relation = self.relation
+          inner_relation = relation
           if materialized?
-            relation
+            inner_relation
           else
-            DECORATED_CLASS.new(header, adapter.read(relation))
+            DECORATED_CLASS.new(header, adapter.read(inner_relation))
           end
         end
 
