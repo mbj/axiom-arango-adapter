@@ -36,7 +36,7 @@ module Veritas
         # @api private
         #
         def tuple(document)
-          Tuple.new(header, document.values_at(*document_keys))
+          Tuple.new(header, document.to_hash.values_at(*document_keys))
         end
 
         # Return header
