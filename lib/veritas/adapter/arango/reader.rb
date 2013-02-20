@@ -87,7 +87,7 @@ module Veritas
         # @api private
         #
         def aql
-          Visitor.run(relation)
+          Visitor.run(relation).aql
         end
         memoize :aql
       end
