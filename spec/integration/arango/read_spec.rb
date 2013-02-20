@@ -103,15 +103,15 @@ describe Veritas::Adapter::Arango, 'read' do
     adapter.gateway(Veritas::Relation::Base.new(name, relations.fetch(name).header))
   end
 
-  specify 'projecting relation' do
+  specify 'projection' do
     assert_eql_tuples(gateway(:tasks).project([:id, :name]), tasks.project([:id, :name]))
   end
 
-  specify 'restricting relation' do
+  specify 'restriction' do
     assert_eql_tuples(gateway(:tasks).restrict { |r| r.project_id.eq(1) }, tasks.restrict { |r| r.project_id.eq(1) })
   end
 
-  specify 'joining relations' do
+  specify 'join' do
     expected = projects.rename(:id => :project_id).join(tasks)
 
     assert_eql_tuples(
@@ -120,31 +120,38 @@ describe Veritas::Adapter::Arango, 'read' do
     )
   end
 
-  specify 'sorting relations' do
+  specify 'sort' do
     assert_eql_tuples_order(
       projects.sort_by { |r| [r.id.asc, r.name.asc] },
       gateway(:projects).sort_by { |r| [r.id.asc, r.name.asc] }
     )
   end
 
-  specify 'limiting relations' do
+  specify 'limit' do
     assert_eql_tuples_order(
       projects.sort_by { |r| [r.id.asc, r.name.asc] }.take(1),
       gateway(:projects).sort_by { |r| [r.id.asc, r.name.asc] }.take(1)
     )
   end
 
-  specify 'offseting relations' do
+  specify 'offset' do
     assert_eql_tuples_order(
       projects.sort_by { |r| [r.id.asc, r.name.asc] }.drop(1),
       gateway(:projects).sort_by { |r| [r.id.asc, r.name.asc] }.drop(1)
     )
   end
 
-  specify 'summarizing relations' do
+  specify 'summarize' do
     assert_eql_tuples(
       tasks.summarize([:project_id]) { |r| r.add(:count, r.name.count) },
       gateway(:tasks).summarize([:project_id]) { |r| [r.add(:count, r.name.count)] }
+    )
+  end
+
+  specify 'extend' do
+    assert_eql_tuples(
+      tasks.extend { |r| r.add(:extend, r.project_id % 2) },
+      gateway(:tasks).extend { |r| r.add(:extend, r.project_id % 2) }
     )
   end
 end
