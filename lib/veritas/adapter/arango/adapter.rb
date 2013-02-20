@@ -16,7 +16,7 @@ module Veritas
         # @api private
         #
         def self.new(database, logger = NullLogger.instance)
-          super
+          super(database, logger)
         end
 
         # Return reader for base relation
