@@ -77,7 +77,7 @@ module Veritas
         # @api private
         #
         def cursor
-          database.execute(aql)
+          database.query.execute(aql)
         end
 
         # Return AQL to query with
