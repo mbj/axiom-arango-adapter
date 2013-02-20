@@ -16,6 +16,7 @@ arangod \
     --javascript.startup-directory ${ARANGODB_DIR}/js \
     --javascript.modules-path ${ARANGODB_DIR}/js/server/modules:${ARANGODB_DIR}/js/common/modules \
     --javascript.action-directory ${ARANGODB_DIR}/js/actions/system  \
+    --log trace \
     --database.maximal-journal-size 1048576  \
     --server.disable-admin-interface true \
     --server.disable-authentication true \
