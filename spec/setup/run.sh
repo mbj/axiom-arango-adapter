@@ -1,4 +1,3 @@
-
 #!/bin/bash
 # Run arango under my archlinux machine
 
