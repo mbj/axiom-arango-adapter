@@ -32,5 +32,11 @@ describe Veritas::Adapter::Arango::Reader, '#each' do
     expect { subject }.to change { yields }.from([]).to([tuple_a, tuple_b])
   end
 
+  it 'should log aql' do
+    logger.should_receive(:debug) do |&block|
+      block.call.should eql("AQL: #{aql}")
+    end
+    subject
+  end
 
 end
