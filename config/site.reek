@@ -1,4 +1,7 @@
 ---
+UnusedParameters:
+  exclude: 
+  - Veritas::Adapter::Arango::Adapter#self.new # false postive
 UncommunicativeParameterName:
   accept: []
   exclude: []

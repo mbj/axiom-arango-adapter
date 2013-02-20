@@ -8,15 +8,15 @@ module Veritas
 
         # Return new adapter
         #
-        # @param [Ashikawa::Core::Database] database
-        # @param [NullLogger] logger
+        # @param [Ashikawa::Core::Database] _database
+        # @param [NullLogger] _logger
         #
         # @return [undefined]
         #
         # @api private
         #
-        def self.new(database, logger = NullLogger.instance)
-          super(database, logger)
+        def self.new(_database, _logger = NullLogger.instance)
+          super
         end
 
         # Return reader for base relation
