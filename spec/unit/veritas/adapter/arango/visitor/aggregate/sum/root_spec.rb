@@ -10,6 +10,6 @@ describe Veritas::Adapter::Arango::Visitor::Aggregate::Sum, '#sum' do
   let(:relation) { base.summarize([:foo]) { |r| r.add(:count, r.bar.sum) }.summarizers.values.first }
 
   expect_aql <<-AQL
-    SUM((FOR `aggregate` IN `collect` FILTER (`bar` != null) RETURN `aggregate`.`bar`))
+    SUM((FOR `aggregate` IN `collect` FILTER (`aggregate`.`summarization`.`bar` != null) RETURN `aggregate`.`summarization`.`bar`))
   AQL
 end

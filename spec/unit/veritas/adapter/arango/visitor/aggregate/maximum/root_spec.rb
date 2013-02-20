@@ -10,6 +10,6 @@ describe Veritas::Adapter::Arango::Visitor::Aggregate::Maximum, '#root' do
   let(:relation) { base.summarize([:bar]) { |r| r.add(:max, r.foo.max) }.summarizers.values.first }
 
   expect_aql <<-AQL
-    MAX((FOR `aggregate` IN `collect` FILTER (`foo` != null) RETURN `aggregate`.`foo`))
+    MAX((FOR `aggregate` IN `collect` FILTER (`aggregate`.`summarization`.`foo` != null) RETURN `aggregate`.`summarization`.`foo`))
   AQL
 end

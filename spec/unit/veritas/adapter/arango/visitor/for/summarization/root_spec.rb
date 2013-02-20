@@ -13,8 +13,8 @@ describe Veritas::Adapter::Arango::Visitor::For::Summarization, '#root' do
     expect_aql <<-AQL
       FOR `summarization` IN
         (FOR `base` IN `name` RETURN {\"foo\": `base`.`foo`, \"bar\": `base`.`bar`})
-        COLLECT (`foo` = `summarization`.`foo`) INTO `collect`
-        RETURN {"foo": `summarization`.`foo`, "count": MAX((FOR `aggregate` IN `collect` FILTER (`bar` != null) RETURN `aggregate`.`bar`))}
+        COLLECT `foo` = `summarization`.`foo` INTO `collect`
+        RETURN {"foo": `foo`, "count": MAX((FOR `aggregate` IN `collect` FILTER (`aggregate`.`summarization`.`bar` != null) RETURN `aggregate`.`summarization`.`bar`))}
     AQL
   end
 
@@ -24,8 +24,8 @@ describe Veritas::Adapter::Arango::Visitor::For::Summarization, '#root' do
     expect_aql <<-AQL
       FOR `summarization` IN
         (FOR `base` IN `name` RETURN {\"foo\": `base`.`foo`, \"bar\": `base`.`bar`})
-        COLLECT (`foo` = `summarization`.`foo`) INTO `collect`
-        RETURN {"foo": `summarization`.`foo`, "count": MIN((FOR `aggregate` IN `collect` FILTER (`bar` != null) RETURN `aggregate`.`bar`))}
+        COLLECT `foo` = `summarization`.`foo` INTO `collect`
+        RETURN {"foo": `foo`, "count": MIN((FOR `aggregate` IN `collect` FILTER (`aggregate`.`summarization`.`bar` != null) RETURN `aggregate`.`summarization`.`bar`))}
     AQL
   end
 
@@ -35,8 +35,8 @@ describe Veritas::Adapter::Arango::Visitor::For::Summarization, '#root' do
     expect_aql <<-AQL
       FOR `summarization` IN
         (FOR `base` IN `name` RETURN {\"foo\": `base`.`foo`, \"bar\": `base`.`bar`})
-        COLLECT (`foo` = `summarization`.`foo`) INTO `collect`
-        RETURN {"foo": `summarization`.`foo`, "count": SUM((FOR `aggregate` IN `collect` FILTER (`bar` != null) RETURN `aggregate`.`bar`))}
+        COLLECT `foo` = `summarization`.`foo` INTO `collect`
+        RETURN {"foo": `foo`, "count": SUM((FOR `aggregate` IN `collect` FILTER (`aggregate`.`summarization`.`bar` != null) RETURN `aggregate`.`summarization`.`bar`))}
     AQL
   end
 
@@ -46,8 +46,8 @@ describe Veritas::Adapter::Arango::Visitor::For::Summarization, '#root' do
     expect_aql <<-AQL
       FOR `summarization` IN
         (FOR `base` IN `name` RETURN {\"foo\": `base`.`foo`, \"bar\": `base`.`bar`})
-        COLLECT (`bar` = `summarization`.`bar`) INTO `collect`
-        RETURN {"bar": `summarization`.`bar`, "count": LENGTH((FOR `aggregate` IN `collect` FILTER (`foo` != null) RETURN `aggregate`.`foo`))}
+        COLLECT `bar` = `summarization`.`bar` INTO `collect`
+        RETURN {"bar": `bar`, "count": LENGTH((FOR `aggregate` IN `collect` FILTER (`aggregate`.`summarization`.`foo` != null) RETURN `aggregate`.`summarization`.`foo`))}
     AQL
   end
 end

@@ -10,6 +10,6 @@ describe Veritas::Adapter::Arango::Visitor::Aggregate::Minimum, '#root' do
   let(:relation) { base.summarize([:bar]) { |r| r.add(:min, r.foo.min) }.summarizers.values.first }
 
   expect_aql <<-AQL
-    MIN((FOR `aggregate` IN `collect` FILTER (`foo` != null) RETURN `aggregate`.`foo`))
+    MIN((FOR `aggregate` IN `collect` FILTER (`aggregate`.`summarization`.`foo` != null) RETURN `aggregate`.`summarization`.`foo`))
   AQL
 end

@@ -31,6 +31,16 @@ module Veritas
           end
           memoize :map_attribute_name
 
+          # Return summarization attribute
+          #
+          # @return [AQL::Node::Attribute]
+          #
+          # @api private
+          #
+          def summarization_attribute
+            Node::Attribute.new(For::Summarization::LOCAL_NAME, map_attribute_name)
+          end
+
           # Return attribute used for mapping
           #
           # @return [AQL::Node::Attribute]
@@ -38,7 +48,7 @@ module Veritas
           # @api private
           #
           def map_attribute
-            Node::Attribute.new(LOCAL_NAME, map_attribute_name)
+            Node::Attribute.new(LOCAL_NAME, summarization_attribute)
           end
           memoize :map_attribute
 
@@ -51,7 +61,7 @@ module Veritas
           def mapped
             Node::Operation::For.new(
               LOCAL_NAME, 
-              context, 
+              For::Summarization::COLLECT_NAME,
               map_body
             )
           end
@@ -64,7 +74,7 @@ module Veritas
           #
           def map_filter
             Node::Operation::Unary::Filter.new(
-              Node::Operator::Binary::Inequality.new(map_attribute_name, Node::Literal::Singleton::NULL)
+              Node::Operator::Binary::Inequality.new(map_attribute, Node::Literal::Singleton::NULL)
             )
           end
 

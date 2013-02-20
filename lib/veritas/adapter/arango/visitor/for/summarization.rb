@@ -27,19 +27,21 @@ module Veritas
 
             # Return collection assignments
             #
-            # @return [Enumerable<AQL::Node::Operator::Binary::Assignment>]
+            # @return [Enumerable<AQL::Node::Operator::Assignment>]
             #
             # @api private
             #
             def assignments
-              projected_document_attributes.map do |document_attribute|
-                attribute = document_attribute.value
-                AQL::Node::Operator::Binary::Assignment.new(
-                  attribute.name,
-                  attribute
+              input.summarize_per.header.map do |attribute|
+                name = AQL::Node::Name.new(attribute.name.to_s)
+                value = AQL::Node::Attribute.new(LOCAL_NAME, name)
+                AQL::Node::Operator::Assignment.new(
+                  name,
+                  value
                 )
               end
             end
+            memoize :assignments
 
             # Return aql return value
             #
@@ -74,7 +76,7 @@ module Veritas
             #
             def extension_document_attribute(attribute, summarizer)
               key = AQL::Node::Literal::Primitive::String.new(attribute.name.to_s)
-              value = visit(summarizer, COLLECT_NAME)
+              value = visit(summarizer)
               AQL::Node::Literal::Composed::Document::Attribute.new(key, value)
             end
 
@@ -85,7 +87,11 @@ module Veritas
             # @api private
             #
             def projected_document_attributes
-              visitor(input.summarize_per.header).document_attributes
+              assignments.map do |assignment|
+                value = assignment.name
+                key   = AQL::Node::Literal::Primitive::String.new(value.name)
+                AQL::Node::Literal::Composed::Document::Attribute.new(key, value)
+              end
             end
             memoize :projected_document_attributes
 
