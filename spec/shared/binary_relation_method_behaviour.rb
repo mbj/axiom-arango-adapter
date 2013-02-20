@@ -7,13 +7,15 @@ shared_examples_for 'a binary relation method' do
     let(:gateway)        { mock('Other Gateway')                        }
 
     before do
-      relation.stub!(operation).and_return(gateway)
+      relation.stub(operation).and_return(gateway)
     end
 
-    it { should equal(gateway) }
+    it { should be(gateway) }
 
     it 'passes the other relation to the binary operation' do
-      relation.should_receive(operation).with(other_relation)
+      relation.should_receive(operation) do |argument|
+        argument.should be(other_relation)
+      end
       subject
     end
   end
