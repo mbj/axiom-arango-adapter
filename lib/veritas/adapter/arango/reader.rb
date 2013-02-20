@@ -3,7 +3,7 @@ module Veritas
     module Arango
       # A reader to read tuples from database
       class Reader
-        include Adamantium::Flat, Composition.new(:database, :relation)
+        include Adamantium::Flat, Enumerable, Composition.new(:adapter, :relation)
 
         # Enumerate tuples
         #
@@ -77,7 +77,7 @@ module Veritas
         # @api private
         #
         def cursor
-          database.query.execute(aql)
+          adapter.database.query.execute(aql)
         end
 
         # Return AQL to query with
@@ -87,9 +87,11 @@ module Veritas
         # @api private
         #
         def aql
-          Visitor.run(relation).aql
+          aql = Visitor.run(relation).aql
+          adapter.logger.debug { "AQL: #{aql}" }
+          aql
         end
-        memoize :aql
+
       end
     end
   end

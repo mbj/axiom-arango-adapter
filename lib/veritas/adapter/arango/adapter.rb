@@ -30,7 +30,7 @@ module Veritas
         # @api private
         #
         def reader(base_relation)
-          Reader.new(database, base_relation)
+          Reader.new(self, base_relation)
         end
 
         # Read tuples from relation 
