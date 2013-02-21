@@ -6,14 +6,18 @@ module Veritas
         class Binary < self
 
           MAPPING = {
-            Function::Numeric::Multiplication => AQL::Node::Operator::Binary::Multiplication,
-            Function::Numeric::Addition       => AQL::Node::Operator::Binary::Addition,
-            Function::Numeric::Division       => AQL::Node::Operator::Binary::Division,
-            Function::Numeric::Modulo         => AQL::Node::Operator::Binary::Modulo,
-            Function::Numeric::Subtraction    => AQL::Node::Operator::Binary::Subtraction,
-            Function::Connective::Disjunction => AQL::Node::Operator::Binary::Or,
-            Function::Connective::Disjunction => AQL::Node::Operator::Binary::Or,
-            Function::Predicate::Equality     => AQL::Node::Operator::Binary::Equality
+            Function::Numeric::Multiplication         => AQL::Node::Operator::Binary::Multiplication,
+            Function::Numeric::Addition               => AQL::Node::Operator::Binary::Addition,
+            Function::Numeric::Division               => AQL::Node::Operator::Binary::Division,
+            Function::Numeric::Modulo                 => AQL::Node::Operator::Binary::Modulo,
+            Function::Numeric::Subtraction            => AQL::Node::Operator::Binary::Subtraction,
+            Function::Predicate::GreaterThanOrEqualTo => AQL::Node::Operator::Binary::GreaterThanOrEqualTo,
+            Function::Predicate::GreaterThan          => AQL::Node::Operator::Binary::GreaterThan,
+            Function::Predicate::LessThan             => AQL::Node::Operator::Binary::LessThan,
+            Function::Predicate::LessThanOrEqualTo    => AQL::Node::Operator::Binary::LessThanOrEqualTo,
+            Function::Connective::Disjunction         => AQL::Node::Operator::Binary::Or,
+            Function::Connective::Disjunction         => AQL::Node::Operator::Binary::Or,
+            Function::Predicate::Equality             => AQL::Node::Operator::Binary::Equality
           }.freeze
 
           MAPPING.each_key do |klass|
