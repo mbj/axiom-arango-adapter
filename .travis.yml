@@ -20,5 +20,6 @@ matrix:
     - rvm: jruby-18mode
     - rvm: rbx-19mode
 notifications:
+  irc: "irc.freenode.org#datamapper"
   email:
     - mbj@seonic.net
