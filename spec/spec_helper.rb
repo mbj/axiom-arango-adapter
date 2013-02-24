@@ -1,15 +1,9 @@
 # encoding: utf-8
 
 require 'veritas-arango-adapter'
-require 'rspec'
 require 'timeout'
-
-# require spec support files and shared behavior
-Dir[File.expand_path('../{support,shared}/**/*.rb', __FILE__)].each { |f| require(f) }
-
-if RUBY_VERSION < '1.9'
-  require 'rspec/autorun'
-end
+require 'devtools'
+Devtools.init
 
 module InstanceMethodHelper
   def instance_method_defined?(name)
