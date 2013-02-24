@@ -3,7 +3,7 @@
 require 'veritas-arango-adapter'
 require 'timeout'
 require 'devtools'
-Devtools.init
+Devtools.init_spec_helper
 
 module InstanceMethodHelper
   def instance_method_defined?(name)
