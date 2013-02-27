@@ -4,6 +4,9 @@ require 'veritas-arango-adapter'
 require 'veritas-fuzzer'
 require 'logger'
 require 'yaml'
+
+# This will go away with the shared gateway
+Veritas::Sexp::Generator::REGISTRY[Veritas::Adapter::Arango::Gateway] = [ :unary, :gateway, :relation ]
  
 database = Ashikawa::Core::Database.new('http://localhost:8529')
 collection = database['people']
