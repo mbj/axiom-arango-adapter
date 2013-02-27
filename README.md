@@ -7,11 +7,20 @@ veritas-arango-adapter
 
 [ArangoDB](https://www.arangodb.org) adapter for [veritas](https://github.com/dkubb/veritas).
 
+Installation
+------------
+
+There is currently no gem release. Use git source in your Gemfile:
+
+`gem 'composition',            :git => 'https://github.com/mbj/composition.git'
+`gem 'veritas-arango-adapter', :git => 'https://github.com/mbj/veritas-arango-adapter.git'`
+
 Examples
 --------
 
 How to setup a gateway and connect it to ArangDB
-```
+
+```ruby
 require 'veritas-arango-adapter'
 require 'logger'
 
@@ -49,13 +58,16 @@ gateway.restrict { |r| r.firstname.eq("Sue") } # restricts to tuples where first
 
 The [veritas README](https://github.com/dkubb/veritas/blob/master/README.md).
 
-Installation
-------------
+Fuzzer
+------
 
-There is currently no gem release. Use git source in your Gemfile:
+Veritas has a fuzzer to assist adapter and datastore correctnes. To run the fuzzer execute:
 
-`gem 'composition',            :git => 'https://github.com/mbj/composition.git'
-`gem 'veritas-arango-adapter', :git => 'https://github.com/mbj/veritas-arango-adapter.git'`
+```
+bundle exec spec/fuzzer.rb
+```
+
+Make sure you run a arangodb instance on localhost at the default port!
 
 Credits
 -------
