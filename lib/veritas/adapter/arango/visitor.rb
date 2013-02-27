@@ -48,6 +48,22 @@ module Veritas
           REGISTRY.fetch(relation.class).new(relation, context)
         end
 
+      protected
+
+        # Return depth
+        #
+        # @return [Integer]
+        #
+        # @api private
+        #
+        def depth
+          if context
+            context.depth + 1
+          else
+            0
+          end
+        end
+
       private
 
         # Return visitor for relation

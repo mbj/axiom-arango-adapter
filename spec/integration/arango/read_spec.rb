@@ -120,6 +120,13 @@ describe Veritas::Adapter::Arango, 'read' do
     )
   end
 
+  specify 'nested joins' do
+    assert_eql_tuples(
+      projects.join(projects).join(projects),
+      gateway(:projects).join(gateway(:projects)).join(gateway(:projects))
+    )
+  end
+
   specify 'sort' do
     assert_eql_tuples_order(
       projects.sort_by { |r| [r.id.asc, r.name.asc] },

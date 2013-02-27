@@ -9,6 +9,16 @@ module Veritas
 
               handle(Veritas::Algebra::Join)
 
+              # Return local name
+              #
+              # @return [AQL::Node::Name]
+              #
+              # @api private
+              #
+              def local_name
+                AQL::Node::Name.new("local_#{depth}")
+              end
+
             private
 
               # Visitor for right of join
