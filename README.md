@@ -10,10 +10,13 @@ veritas-arango-adapter
 Installation
 ------------
 
-There is currently no gem release. Use git source in your Gemfile:
+There is currently no gem release, also for some dependencies, use git sources:
 
-`gem 'composition',            :git => 'https://github.com/mbj/composition.git'
-`gem 'veritas-arango-adapter', :git => 'https://github.com/mbj/veritas-arango-adapter.git'`
+```
+gem 'composition',            :git => 'https://github.com/mbj/composition.git'
+gem 'aql',                    :git => 'https://github.com/mbj/aql.git'
+gem 'veritas-arango-adapter', :git => 'https://github.com/mbj/veritas-arango-adapter.git'
+```
 
 Examples
 --------
