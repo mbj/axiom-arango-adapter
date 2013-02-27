@@ -16,8 +16,9 @@ module Veritas
             Function::Predicate::LessThan             => AQL::Node::Operator::Binary::LessThan,
             Function::Predicate::LessThanOrEqualTo    => AQL::Node::Operator::Binary::LessThanOrEqualTo,
             Function::Connective::Disjunction         => AQL::Node::Operator::Binary::Or,
-            Function::Connective::Disjunction         => AQL::Node::Operator::Binary::Or,
-            Function::Predicate::Equality             => AQL::Node::Operator::Binary::Equality
+            Function::Connective::Conjunction         => AQL::Node::Operator::Binary::And,
+            Function::Predicate::Equality             => AQL::Node::Operator::Binary::Equality,
+            Function::Predicate::Inequality           => AQL::Node::Operator::Binary::Inequality
           }.freeze
 
           MAPPING.each_key do |klass|
