@@ -7,24 +7,55 @@ veritas-arango-adapter
 
 [ArangoDB](https://www.arangodb.org) adapter for [veritas](https://github.com/dkubb/veritas).
 
-Using veritas-arango-adapter
-----------------------------
+Examples
+--------
 
-There is currently no stable public API.
+How to setup a gateway and connect it to ArangDB
+```
+require 'veritas-arango-adapter'
+require 'logger'
+
+# Connect to arangodb
+database = Ashikawa::Core::Database.new('http://localhost:8529')
+
+# Push some people to db
+collection = database['people']
+
+[
+  { :id => 1, :firstname => "Jon", :lastname => "Doe" },
+  { :id => 2, :firstname => "Sue", :lastname => "Doe" }
+].each do |document|
+  collection.create(document)
+end
+
+# Some logger to see AQL
+logger = Logger.new($stderr, :debug)
+
+# Instantiating adapter
+adapter = Veritas::Adapter::Arango::Adapter.new(database, logger)
+
+# Setting up a base relation
+header = Veritas::Relation::Header.coerce([[:id, Integer], [:firstname, String], [:lastname, String]])
+base   = Veritas::Relation::Base.new(:people, header)
+
+# Creating a gateway
+gateway = adapter.gateway(base)
+
+# Use that gateway with examples from veritas README!
+
+# like
+gateway.restrict { |r| r.firstname.eq("Sue") } # restricts to tuples where firstname is "Sue"
+```
+
+The [veritas README](https://github.com/dkubb/veritas/blob/master/README.md).
 
 Installation
 ------------
 
 There is currently no gem release. Use git source in your Gemfile:
 
-```gem 'veritas-arango-adapter', :git => 'https://github.com/mbj/veritas-arango-adapter'```
-
-Or use ```:github => 'mbj/veritas-arango-adapter'``` if you prefer unencrypted protocols.
-
-Examples
---------
-
-No public api => No examples. (Subjected to change).
+`gem 'composition',            :git => 'https://github.com/mbj/composition.git'
+`gem 'veritas-arango-adapter', :git => 'https://github.com/mbj/veritas-arango-adapter.git'`
 
 Credits
 -------
@@ -46,4 +77,4 @@ Contributing
 License
 -------
 
-See LICENSE file.
+See `LICENSE` file.
