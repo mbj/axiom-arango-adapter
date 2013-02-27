@@ -12,7 +12,7 @@ Installation
 
 There is currently no gem release, also for some dependencies, use git sources:
 
-```
+```ruby
 gem 'composition',            :git => 'https://github.com/mbj/composition.git'
 gem 'aql',                    :git => 'https://github.com/mbj/aql.git'
 gem 'veritas-arango-adapter', :git => 'https://github.com/mbj/veritas-arango-adapter.git'
