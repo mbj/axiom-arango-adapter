@@ -44,7 +44,19 @@ module Veritas
         #
         # @return [Gateway]
         #
-        # @api private
+        # @example 
+        #   
+        #   gateway = adapter.gateway(base_relation)
+        #
+        #   # Perform restriction on gateway
+        #   relation = gateway.restrict { |r| r.foo.eql('bar') }
+        #
+        #   # Enumerate tuples
+        #   relation.each do |tuple|
+        #     p tuple.to_ary
+        #   end
+        #
+        # @api public
         #
         def gateway(base_relation)
           Gateway.new(self, base_relation)
