@@ -18,6 +18,7 @@ module Veritas
               def local_name
                 AQL::Node::Name.new("local_#{depth}")
               end
+              memoize :local_name
 
             private
 
