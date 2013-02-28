@@ -10,7 +10,7 @@ veritas-arango-adapter
 Installation
 ------------
 
-There is currently no gem release, also for some dependencies, use git sources:
+There is currently no gem release for `veritas-arango-adapter` as well as for some of the dependencies, so please use git sources:
 
 ```ruby
 gem 'composition',            :git => 'https://github.com/mbj/composition.git'
@@ -21,16 +21,16 @@ gem 'veritas-arango-adapter', :git => 'https://github.com/mbj/veritas-arango-ada
 Examples
 --------
 
-How to setup a gateway and connect it to ArangDB
+Setup a gateway and connect it to ArangDB:
 
 ```ruby
 require 'veritas-arango-adapter'
 require 'logger'
 
-# Connect to arangodb
+# Connect to ArangoDB
 database = Ashikawa::Core::Database.new('http://localhost:8529')
 
-# Push some people to db
+# Save some people in the database
 collection = database['people']
 
 [
@@ -53,24 +53,22 @@ base   = Veritas::Relation::Base.new(:people, header)
 # Creating a gateway
 gateway = adapter.gateway(base)
 
-# Use that gateway with examples from veritas README!
-
-# like
+# Use the gateway with the examples from the veritas README, for example:
 gateway.restrict { |r| r.firstname.eq("Sue") } # restricts to tuples where firstname is "Sue"
 ```
 
-The [veritas README](https://github.com/dkubb/veritas/blob/master/README.md).
+You can find more examples in the [veritas README](https://github.com/dkubb/veritas/blob/master/README.md).
 
 Fuzzer
 ------
 
-Veritas has a fuzzer to assist adapter and datastore correctnes. To run the fuzzer execute:
+Veritas has a fuzzer to assist checking the correctness of the adapter and datastore. To run the fuzzer execute the following:
 
 ```
 bundle exec spec/fuzzer.rb
 ```
 
-Make sure you run a arangodb instance on localhost at the default port!
+Make sure you run an ArangoDB instance on localhost at the default port!
 
 Credits
 -------
@@ -92,4 +90,4 @@ Contributing
 License
 -------
 
-See `LICENSE` file.
+This gem is published under the MIT license. See `LICENSE` file.
