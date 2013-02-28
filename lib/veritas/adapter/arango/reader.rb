@@ -1,7 +1,7 @@
 module Veritas
   module Adapter
     module Arango
-      # A reader to read tuples from database
+      # A reader to read tuples from the database
       class Reader
         include Adamantium::Flat, Enumerable, Composition.new(:adapter, :relation)
 
@@ -72,7 +72,7 @@ module Veritas
 
         # Return cursor
         #
-        # @return [Ashikawa::Core::Cursor] 
+        # @return [Ashikawa::Core::Cursor]
         #
         # @api private
         #

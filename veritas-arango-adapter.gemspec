@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
 
   s.authors  = ['Markus Schirp']
   s.email    = 'mbj@seonic.net'
-  s.summary  = 'The ArangoDB veritas adaper'
+  s.summary  = 'The ArangoDB veritas adapter'
   s.homepage = 'http://github.com/mbj/veritas-arango-adapter'
 
   s.files            = `git ls-files`.split("\n")

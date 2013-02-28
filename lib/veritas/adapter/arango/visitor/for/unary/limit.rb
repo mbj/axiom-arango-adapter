@@ -4,7 +4,7 @@ module Veritas
       class Visitor
         class For
           class Unary
-            # Vistor for emitting AQL LIMIT statements from veritas limit operations
+            # Visitor for emitting AQL LIMIT statements from veritas limit operations
             class Limit < self
 
               handle(Veritas::Relation::Operation::Limit)

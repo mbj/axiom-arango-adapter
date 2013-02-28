@@ -5,7 +5,7 @@ module Veritas
         # Base class for visitors that emit for statements
         class For < self
 
-          # Return root aql ast
+          # Return root AQL AST
           #
           # @return [AQL::Node]
           #

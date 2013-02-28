@@ -32,7 +32,7 @@ module Veritas
               Node::Block.new([return_operation])
             end
 
-          end 
+          end
         end
       end
     end

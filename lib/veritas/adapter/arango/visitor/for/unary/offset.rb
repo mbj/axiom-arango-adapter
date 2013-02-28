@@ -4,7 +4,7 @@ module Veritas
       class Visitor
         class For
           class Unary
-            # Visitor for emitting currently definct LIMIT statements from veritas offset operations
+            # Visitor for emitting currently defunct LIMIT statements from veritas offset operations
             class Offset < self
 
               handle(Veritas::Relation::Operation::Offset)

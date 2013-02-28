@@ -8,8 +8,8 @@ module Veritas
           handle(Veritas::Relation::Operation::Reverse)
 
           FUNCTION_NAME = 'REVERSE'.freeze
-          
-          # Return root aql ast
+
+          # Return root AQL AST
           #
           # @return [AQL::Node]
           #
