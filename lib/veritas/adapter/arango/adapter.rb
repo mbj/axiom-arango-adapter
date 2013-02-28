@@ -13,7 +13,12 @@ module Veritas
         #
         # @return [undefined]
         #
-        # @api private
+        # @example
+        #
+        #   database = Ashikawa::Core::Database.new('http://localhost:8529')
+        #   adapter = Veritas::Adapter::Arango::Adapter.new(database, Logger.new($stderr, :debug))
+        #
+        # @api public
         #
         def self.new(_database, _logger = NullLogger.instance)
           super
