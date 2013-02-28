@@ -57,12 +57,14 @@ module Veritas
         # @api private
         #
         def depth
+          context = self.context
           if context
             context.depth + 1
           else
             0
           end
         end
+        memoize :depth
 
       private
 
