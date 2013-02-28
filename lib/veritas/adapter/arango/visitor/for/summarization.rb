@@ -1,6 +1,6 @@
 module Veritas
   module Adapter
-    module Arango 
+    module Arango
       class Visitor
         class For
           # Visitor for veritas summarizations
@@ -43,7 +43,7 @@ module Veritas
             end
             memoize :assignments
 
-            # Return aql return value
+            # Return AQL return value
             #
             # @return [AQL::Node::Literal::Composed::Document]
             #
@@ -65,7 +65,7 @@ module Veritas
               end
             end
 
-            # Return extension document attribute 
+            # Return extension document attribute
             #
             # @param [Attribute] attribute
             # @param [Aggregate] summarizer

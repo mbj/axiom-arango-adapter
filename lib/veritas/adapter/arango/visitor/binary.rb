@@ -36,7 +36,7 @@ module Veritas
           end
           memoize :local_name
 
-          # Return root aql node
+          # Return root AQL node
           #
           # @return [AQL::Node]
           #
@@ -50,7 +50,7 @@ module Veritas
 
         private
 
-          # Return left aql node
+          # Return left AQL node
           #
           # @return [AQL::Node]
           #
@@ -60,7 +60,7 @@ module Veritas
             visit(input.left)
           end
 
-          # Return right aql node
+          # Return right AQL node
           #
           # @return [AQL::Node]
           #

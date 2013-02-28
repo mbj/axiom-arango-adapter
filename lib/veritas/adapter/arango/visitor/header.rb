@@ -45,7 +45,7 @@ module Veritas
             Node::Literal::Composed::Document::Attribute.new(
               Node::Literal::Primitive::String.new(attribute.name.to_s),
               visit(attribute, context)
-            ) 
+            )
           end
 
         end

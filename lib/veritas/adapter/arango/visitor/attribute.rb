@@ -8,7 +8,7 @@ module Veritas
           handle(Veritas::Attribute::String)
           handle(Veritas::Attribute::Integer)
 
-          # Return root AQL node 
+          # Return root AQL node
           #
           # @return [AQL::Node]
           #
