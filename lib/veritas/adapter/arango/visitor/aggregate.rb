@@ -7,7 +7,7 @@ module Veritas
 
           LOCAL_NAME = AQL.name_node('aggregate')
 
-          # Return root aql node
+          # Return root AQL node
           #
           # @return [AQL::Node]
           #
@@ -60,7 +60,7 @@ module Veritas
           #
           def mapped
             Node::Operation::For.new(
-              LOCAL_NAME, 
+              LOCAL_NAME,
               For::Summarization::COLLECT_NAME,
               map_body
             )
@@ -88,7 +88,7 @@ module Veritas
             Node::Operation::Unary::Return.new(map_attribute)
           end
 
-          # Return map body 
+          # Return map body
           #
           # @return [AQL::Node::Block]
           #

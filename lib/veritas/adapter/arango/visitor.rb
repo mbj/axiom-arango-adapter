@@ -7,7 +7,7 @@ module Veritas
 
         abstract_method :root
 
-        # Return AQL node from relation 
+        # Return an AQL node from the relation
         #
         # @param [Relation] relation
         #
@@ -21,7 +21,7 @@ module Veritas
 
         REGISTRY = {}
 
-        # Register handler for veritas relation
+        # Register handler for the veritas relation
         #
         # @param [Class] klass
         #
@@ -66,7 +66,7 @@ module Veritas
 
       private
 
-        # Return visitor for relation
+        # Return a visitor for the given relation
         #
         # @param [Relation] relation
         # @param [Visitor] context
@@ -79,7 +79,7 @@ module Veritas
           self.class.build(relation, context)
         end
 
-        # Return AQL node from visiting veritas relation
+        # Return an AQL node from visiting veritas a given relation
         #
         # @param [Relation] relation
         # @param [Visitor] context

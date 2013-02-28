@@ -2,7 +2,7 @@ module Veritas
   module Adapter
     module Arango
       class Visitor
-        # Base class for visitors with static root 
+        # Base class for visitors with static root
         class Static < self
 
           # Return root node

@@ -8,7 +8,7 @@ module Veritas
           handle(::String)
           handle(::Fixnum)
 
-          # Return root aql node
+          # Return root AQL node
           #
           # @return [AQL::Node]
           #

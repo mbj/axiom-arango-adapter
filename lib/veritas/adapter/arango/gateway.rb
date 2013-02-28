@@ -70,7 +70,7 @@ module Veritas
           end
         end
 
-        # Return a relation that is the cartesian product of two relations
+        # Return a relation that is the Cartesian product of two relations
         #
         # @example
         #   product = gateway.product(other)
@@ -124,7 +124,7 @@ module Veritas
           binary_operation(__method__, other, Algebra::Intersection)
         end
 
-        # Return the diferrence between relations
+        # Return the difference between relations
         #
         # @example
         #   difference = gateway.difference(other)
@@ -262,7 +262,7 @@ module Veritas
           end
         end
 
-        # Return tuple reader
+        # Return a tuple reader
         #
         # @return [Enumerable<Tuple>]
         #

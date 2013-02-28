@@ -2,7 +2,7 @@ module Veritas
   module Adapter
     module Arango
 
-      # Adapter to read tuples from remote elasticsearch database
+      # Adapter to read tuples from remote ArangoDB
       class Adapter
         include Adamantium::Flat, Composition.new(:database, :logger)
 
@@ -33,7 +33,7 @@ module Veritas
           Reader.new(self, base_relation)
         end
 
-        # Return gateway for arango adapter
+        # Return gateway for the ArangoDB adapter
         #
         # @param [Relation::Base] base_relation
         #

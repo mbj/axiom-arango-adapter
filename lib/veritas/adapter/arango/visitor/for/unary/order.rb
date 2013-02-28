@@ -4,7 +4,7 @@ module Veritas
       class Visitor
         class For
           class Unary
-            # Vistor for emitting AQL SORT statments from veritas order operations
+            # Visitor for emitting AQL SORT statements from veritas order operations
             class Order < self
 
               handle(Veritas::Relation::Operation::Order)
@@ -41,7 +41,7 @@ module Veritas
                 Veritas::Relation::Operation::Order::Descending => Node::Operation::Unary::Direction::Descending
               }.freeze
 
-              # Return direction aql for veritas direction
+              # Return direction AQL for veritas direction
               #
               # @param [Relation::Operation::Order::Direction] direction
               #

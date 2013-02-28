@@ -15,7 +15,7 @@ module Veritas
             # @return [AQL::Node]
             #
             # @api private
-            # 
+            #
             def source
               visit(input.left)
             end
@@ -46,7 +46,7 @@ module Veritas
 
             private
 
-              # Return source of iteration 
+              # Return source of iteration
               #
               # @return [AQL::Node]
               #
@@ -91,7 +91,7 @@ module Veritas
 
               # Return context input
               #
-              # @return [Veritas::Relation] 
+              # @return [Veritas::Relation]
               #
               # @api private
               #
