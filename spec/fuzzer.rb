@@ -8,13 +8,16 @@ require 'yaml'
 # This will go away with the shared gateway
 Veritas::Sexp::Generator::REGISTRY[Veritas::Adapter::Arango::Gateway] = [ :unary, :gateway, :relation ]
  
-database = Ashikawa::Core::Database.new('http://localhost:8529')
+database = Ashikawa::Core::Database.new do |config|
+  config.url = 'http://localhost:8529'
+end
+
 collection = database['people']
 collection.delete
 collection = database['people']
  
 YAML.load(DATA).each do |document|
-  collection.create(document)
+  collection.create_document(document)
 end
 
 header   = [ [ :id, Integer ], [ :name, String, { :length => 1..50 } ] ]

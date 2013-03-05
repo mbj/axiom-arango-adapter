@@ -69,7 +69,9 @@ describe Veritas::Adapter::Arango, 'read' do
   end
 
   let(:database) do
-    Ashikawa::Core::Database.new('http://localhost:8529')
+    Ashikawa::Core::Database.new do |config|
+      config.url = 'http://localhost:8529'
+    end
   end
 
   let(:adapter) do
@@ -84,7 +86,7 @@ describe Veritas::Adapter::Arango, 'read' do
         document = relation.header.each_with_object({}) do |attribute, document|
           document[attribute.name.to_s]=tuple[attribute]
         end
-        collection.create(document)
+        collection.create_document(document)
       end
     end
   end
