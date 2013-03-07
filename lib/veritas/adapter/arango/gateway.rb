@@ -5,7 +5,7 @@ module Veritas
     module Arango
       # A relation backed by an adapter
       class Gateway < Relation
-        include Composition.new(:adapter, :relation)
+        include Concord.new(:adapter, :relation)
 
         DECORATED_CLASS = superclass
 

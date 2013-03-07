@@ -3,7 +3,7 @@ module Veritas
     module Arango
       # A reader to read tuples from the database
       class Reader
-        include Adamantium::Flat, Enumerable, Composition.new(:adapter, :relation)
+        include Adamantium::Flat, Enumerable, Concord.new(:adapter, :relation)
 
         # Enumerate tuples
         #

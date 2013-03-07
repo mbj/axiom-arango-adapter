@@ -4,7 +4,7 @@ module Veritas
 
       # Adapter to read tuples from remote ArangoDB
       class Adapter
-        include Adamantium::Flat, Composition.new(:database, :logger)
+        include Adamantium::Flat, Concord.new(:database, :logger)
 
         # Return new adapter
         #

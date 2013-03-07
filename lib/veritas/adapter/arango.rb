@@ -1,5 +1,6 @@
 require 'veritas'
 require 'aql'
+require 'concord'
 require 'ashikawa-core'
 require 'null_logger'
 

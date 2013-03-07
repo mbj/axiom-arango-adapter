@@ -3,7 +3,7 @@ module Veritas
     module Arango
       # Base class for relation specific visitors
       class Visitor
-        include AbstractType, Adamantium::Flat, Composition.new(:input, :context), AQL
+        include AbstractType, Adamantium::Flat, Concord.new(:input, :context), AQL
 
         abstract_method :root
 
