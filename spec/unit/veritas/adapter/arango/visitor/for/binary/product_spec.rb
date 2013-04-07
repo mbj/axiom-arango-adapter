@@ -1,1 +1,0 @@
-product/root_spec.rb

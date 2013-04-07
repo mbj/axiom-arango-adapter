@@ -1,20 +1,20 @@
-veritas-arango-adapter
+axiom-arango-adapter
 ======================
 
-[![Build Status](https://secure.travis-ci.org/mbj/veritas-arango-adapter.png?branch=master)](http://travis-ci.org/mbj/veritas-arango-adapter)
-[![Dependency Status](https://gemnasium.com/mbj/veritas-arango-adapter.png)](https://gemnasium.com/mbj/veritas-arango-adapter)
-[![Code Climate](https://codeclimate.com/github/mbj/veritas-arango-adapter.png)](https://codeclimate.com/github/mbj/veritas-arango-adapter)
+[![Build Status](https://secure.travis-ci.org/mbj/axiom-arango-adapter.png?branch=master)](http://travis-ci.org/mbj/axiom-arango-adapter)
+[![Dependency Status](https://gemnasium.com/mbj/axiom-arango-adapter.png)](https://gemnasium.com/mbj/axiom-arango-adapter)
+[![Code Climate](https://codeclimate.com/github/mbj/axiom-arango-adapter.png)](https://codeclimate.com/github/mbj/axiom-arango-adapter)
 
-[ArangoDB](https://www.arangodb.org) adapter for [veritas](https://github.com/dkubb/veritas).
+[ArangoDB](https://www.arangodb.org) adapter for [axiom](https://github.com/dkubb/axiom).
 
 Installation
 ------------
 
-There is currently no gem release for `veritas-arango-adapter` as well as for some of the dependencies, so please use git sources:
+There is currently no gem release for `axiom-arango-adapter` as well as for some of the dependencies, so please use git sources:
 
 ```ruby
 gem 'aql',                    :git => 'https://github.com/mbj/aql.git'
-gem 'veritas-arango-adapter', :git => 'https://github.com/mbj/veritas-arango-adapter.git'
+gem 'axiom-arango-adapter', :git => 'https://github.com/mbj/axiom-arango-adapter.git'
 ```
 
 Examples
@@ -23,7 +23,7 @@ Examples
 Setup a gateway and connect it to ArangDB:
 
 ```ruby
-require 'veritas-arango-adapter'
+require 'axiom-arango-adapter'
 require 'logger'
 
 # Connect to ArangoDB
@@ -43,25 +43,25 @@ end
 logger = Logger.new($stderr, :debug)
 
 # Instantiating adapter
-adapter = Veritas::Adapter::Arango::Adapter.new(database, logger)
+adapter = Axiom::Adapter::Arango::Adapter.new(database, logger)
 
 # Setting up a base relation
-header = Veritas::Relation::Header.coerce([[:id, Integer], [:firstname, String], [:lastname, String]])
-base   = Veritas::Relation::Base.new(:people, header)
+header = Axiom::Relation::Header.coerce([[:id, Integer], [:firstname, String], [:lastname, String]])
+base   = Axiom::Relation::Base.new(:people, header)
 
 # Creating a gateway
 gateway = adapter.gateway(base)
 
-# Use the gateway with the examples from the veritas README, for example:
+# Use the gateway with the examples from the axiom README, for example:
 gateway.restrict { |r| r.firstname.eq("Sue") } # restricts to tuples where firstname is "Sue"
 ```
 
-You can find more examples in the [veritas README](https://github.com/dkubb/veritas/blob/master/README.md).
+You can find more examples in the [axiom README](https://github.com/dkubb/axiom/blob/master/README.md).
 
 Fuzzer
 ------
 
-Veritas has a fuzzer to assist checking the correctness of the adapter and datastore. To run the fuzzer execute the following:
+Axiom has a fuzzer to assist checking the correctness of the adapter and datastore. To run the fuzzer execute the following:
 
 ```
 bundle exec spec/fuzzer.rb
