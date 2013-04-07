@@ -1,12 +1,12 @@
 #!/usr/bin/env ruby
 
-require 'veritas-arango-adapter'
-require 'veritas-fuzzer'
+require 'axiom-arango-adapter'
+require 'axiom-fuzzer'
 require 'logger'
 require 'yaml'
 
 # This will go away with the shared gateway
-Veritas::Sexp::Generator::REGISTRY[Veritas::Adapter::Arango::Gateway] = [ :unary, :gateway, :relation ]
+Axiom::Sexp::Generator::REGISTRY[Veritas::Adapter::Arango::Gateway] = [ :unary, :gateway, :relation ]
  
 database = Ashikawa::Core::Database.new do |config|
   config.url = 'http://localhost:8529'
@@ -22,12 +22,12 @@ end
 
 header   = [ [ :id, Integer ], [ :name, String, { :length => 1..50 } ] ]
 
-base     = Veritas::Relation::Base.new('people', header)
-adapter  = Veritas::Adapter::Arango::Adapter.new(database, Logger.new($stderr, :debug))
+base     = Axiom::Relation::Base.new('people', header)
+adapter  = Axiom::Adapter::Arango::Adapter.new(database, Logger.new($stderr, :debug))
 gateway  = adapter.gateway(base)
 relation = gateway.materialize
 
-Veritas::Fuzzer.run(gateway, relation)
+Axiom::Fuzzer.run(gateway, relation)
 
 __END__
 ---

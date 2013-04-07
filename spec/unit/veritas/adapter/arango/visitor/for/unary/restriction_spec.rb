@@ -1,1 +1,0 @@
-restriction/root_spec.rb

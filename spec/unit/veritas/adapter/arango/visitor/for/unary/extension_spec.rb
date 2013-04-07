@@ -1,1 +1,0 @@
-extension/root_spec.rb

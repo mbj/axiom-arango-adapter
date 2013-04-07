@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-require 'veritas-arango-adapter'
+require 'axiom-arango-adapter'
 require 'timeout'
 require 'devtools'
 Devtools.init_spec_helper
@@ -17,17 +17,17 @@ module AQLHelper
   end
 
   def expect_aql(string)
-    let(:header)  { Veritas::Relation::Header.coerce([[:foo, String], [:bar, Integer]]) }
-    let(:base)    { Veritas::Relation::Base.new(:name, header) }
+    let(:header)  { Axiom::Relation::Header.coerce([[:foo, String], [:bar, Integer]]) }
+    let(:base)    { Axiom::Relation::Base.new(:name, header) }
     let(:object)  { described_class.new(relation, context) }
 
     # Disjunct header for projection
-    let(:header_b) { Veritas::Relation::Header.coerce([[:baz, String]]) }
-    let(:base_b)   { Veritas::Relation::Base.new(:name_b, header_b) }
+    let(:header_b) { Axiom::Relation::Header.coerce([[:baz, String]]) }
+    let(:base_b)   { Axiom::Relation::Base.new(:name_b, header_b) }
 
     # Overlapping header for join
-    let(:header_c) { Veritas::Relation::Header.coerce([[:baz, String], [:bar, Integer]]) }
-    let(:base_c)   { Veritas::Relation::Base.new(:name_c, header_c) }
+    let(:header_c) { Axiom::Relation::Header.coerce([[:baz, String], [:bar, Integer]]) }
+    let(:base_c)   { Axiom::Relation::Base.new(:name_c, header_c) }
 
     unless instance_method_defined?(:context)
       let(:context) { nil }
@@ -40,7 +40,7 @@ module AQLHelper
 end
 
 RSpec.configure do |config|
-  config.include(Veritas)
+  config.include(Axiom)
   config.extend(AQLHelper)
   config.extend(InstanceMethodHelper)
   config.around do |example|
