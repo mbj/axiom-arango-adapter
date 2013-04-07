@@ -1,37 +1,37 @@
 require 'spec_helper'
 require 'logger'
 
-describe Veritas::Adapter::Arango, 'read' do
+describe Axiom::Adapter::Arango, 'read' do
   let(:logger) do
     Logger.new($stderr, :debug)
   end
 
   let(:projects) do
-    header = Veritas::Relation::Header.coerce(
+    header = Axiom::Relation::Header.coerce(
       [
         [ :id, Integer ],
         [ :name, String ]
       ]
     )
 
-    Veritas::Relation.new(header, 
+    Axiom::Relation.new(header, 
       [
         [ 1, 'dm-mapper' ],
-        [ 2, 'veritas'   ],
+        [ 2, 'axiom'   ],
         [ 3, 'dm-session'],
       ]
     )
   end
 
   let(:people) do
-    header = Veritas::Relation::Header.coerce(
+    header = Axiom::Relation::Header.coerce(
       [
         [ :id, Integer ],
         [ :name, String ]
       ]
     )
 
-    Veritas::Relation.new(header, 
+    Axiom::Relation.new(header, 
       [
         [ 1, 'Dan Kubb'          ],
         [ 2, 'Piotr Solnica'     ],
@@ -42,7 +42,7 @@ describe Veritas::Adapter::Arango, 'read' do
   end
 
   let(:tasks) do
-    header = Veritas::Relation::Header.coerce(
+    header = Axiom::Relation::Header.coerce(
       [
         [ :id, Integer ],
         [ :name, String ],
@@ -50,7 +50,7 @@ describe Veritas::Adapter::Arango, 'read' do
       ]
     )
 
-    Veritas::Relation::new(header, 
+    Axiom::Relation::new(header, 
       [
         [ 1, 'Add full mutation coverage',    1],
         [ 2, 'Finish dm-session integration', 1],
@@ -75,7 +75,7 @@ describe Veritas::Adapter::Arango, 'read' do
   end
 
   let(:adapter) do
-    Veritas::Adapter::Arango::Adapter.new(database, logger)
+    Axiom::Adapter::Arango::Adapter.new(database, logger)
   end
 
   before :all do
@@ -102,7 +102,7 @@ describe Veritas::Adapter::Arango, 'read' do
   end
 
   def gateway(name)
-    adapter.gateway(Veritas::Relation::Base.new(name, relations.fetch(name).header))
+    adapter.gateway(Axiom::Relation::Base.new(name, relations.fetch(name).header))
   end
 
   specify 'projection' do

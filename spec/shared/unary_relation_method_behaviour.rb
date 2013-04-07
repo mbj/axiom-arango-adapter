@@ -10,7 +10,7 @@ shared_examples_for 'a unary relation method' do
   it { should equal(gateway) }
 
   it 'tests the response is a relation' do
-    response.should_receive(:kind_of?).with(Veritas::Relation)
+    response.should_receive(:kind_of?).with(Axiom::Relation)
     subject
   end
 
