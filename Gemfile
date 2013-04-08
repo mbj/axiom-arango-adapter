@@ -2,7 +2,6 @@ source 'https://rubygems.org'
 
 gemspec
 
-gem 'aql',          :git => 'https://github.com/mbj/aql.git'
 gem 'axiom-fuzzer', :git => 'https://github.com/mbj/axiom-fuzzer.git'
 gem 'axiom-sexp',   :git => 'https://github.com/mbj/axiom-sexp.git'
 
