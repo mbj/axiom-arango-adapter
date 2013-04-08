@@ -8,6 +8,7 @@ Gem::Specification.new do |s|
   s.email    = 'mbj@seonic.net'
   s.summary  = 'The ArangoDB axiom adapter'
   s.homepage = 'http://github.com/mbj/axiom-arango-adapter'
+  s.license  = 'MIT'
 
   s.files            = `git ls-files`.split("\n")
   s.test_files       = `git ls-files -- {spec,features}/*`.split("\n")
