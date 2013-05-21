@@ -6,6 +6,22 @@ module Axiom
       class Adapter
         include Adamantium::Flat, Concord.new(:database, :logger)
 
+        # Return logger
+        #
+        # @return [Logger]
+        #
+        # @api private
+        #
+        attr_reader :logger
+
+        # Return database
+        #
+        # @return [ArangoDB::Database]
+        #
+        # @api private
+        #
+        attr_reader :database
+
         # Return new adapter
         #
         # @param [Ashikawa::Core::Database] _database
