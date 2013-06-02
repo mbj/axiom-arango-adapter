@@ -20,4 +20,8 @@ matrix:
     - rvm: jruby-18mode
     - rvm: rbx-19mode
 notifications:
-  irc: "irc.freenode.org#rom-rb"
+  irc:
+    channels:
+      - irc.freenode.org#rom-rb
+    on_success: never
+    on_failure: change
